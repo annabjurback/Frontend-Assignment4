@@ -33,6 +33,10 @@ const app = createApp({
                 date: new Date().toISOString().substring(0, 10),
                 edit: false
             }],
+            filterOptions: {
+                category: "all"
+            }
+            
             // placeholderDate: new Date()
         }
     },
@@ -50,5 +54,17 @@ const app = createApp({
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
         },
+        filterExpenses() {
+            let result;
+
+            if(this.filterOptions.category === "all"){
+                result = this.expenses.slice();
+            }
+            if(this.filterOptions.category !== "all"){
+                result = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
+            }
+
+            return result;
+        }
     }
 }).mount('#app')
