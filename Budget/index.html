@@ -1,17 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app">
-      <p>
-        {{ counter }}     
-      </p>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget app</title>
+</head>
+
+<body>
+  <main id="app">
+    <h1>My expenses</h1>
+    <form @submit.prevent="addExpense">
+      <label>Enter expense <input type="text" v-model="expense"></label>
+      <label>Enter amount <input type="number" v-model="amount"></label>
+      <label>Enter date <input type="date" v-model="date"></label>
+      <label>Select category 
+        <select v-model="category">
+          <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
+        </select>
+      </label>
+      <button type="submit">Add expense</button>
+    </form>
+
+    <div>
+      <h2>History</h2>
+      <ul>
+        <li v-for="(expense, index) in expenses">Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date {{expense.date}}
+          <button @click="deleteExpense(index)">Delete expense</button>
+          <button @click="expense.edit = !expense.edit">Edit expense</button>
+          <template v-if="expense.edit">
+          <form @submit.prevent="addExpense">
+            <label>Expense <input type="text" v-model="expense.expense"></label>
+            <label>Amount <input type="number" v-model="expense.amount"></label>
+            <label>Date <input type="date" v-model="expense.date"></label>
+            <label>Category 
+              <select v-model="expense.category">
+                <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
+              </select>
+            </label>
+            <button type="submit">Save expense</button>
+          </form>
+        </template>
+        </li>
+      </ul>
     </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
