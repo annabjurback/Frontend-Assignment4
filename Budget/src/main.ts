@@ -33,6 +33,20 @@ const app = createApp({
                 date: new Date().toISOString().substring(0, 10),
                 edit: false
             }],
+            dummy: [{
+                expense: "Cat",
+                amount: 10,
+                category: "household",
+                date: new Date().toISOString().substring(0, 10),
+                edit: false
+            },
+            {
+                expense: "Dog",
+                amount: 123,
+                category: "entertainment",
+                date: new Date().toISOString().substring(0, 10),
+                edit: false
+            }],
             filterOptions: {
                 category: "all"
             }
@@ -55,16 +69,14 @@ const app = createApp({
             this.expenses.splice(index, 1);
         },
         filterExpenses() {
-            let result;
-
             if(this.filterOptions.category === "all"){
-                result = this.expenses.slice();
+                this.dummy = this.expenses.slice();
             }
-            if(this.filterOptions.category !== "all"){
-                result = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
+            else {
+                this.dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
             }
 
-            return result;
+            return this.dummy;
         }
     }
 }).mount('#app')

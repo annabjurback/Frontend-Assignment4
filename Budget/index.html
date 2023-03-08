@@ -11,7 +11,7 @@
   <body>
     <main id="app">
       <h1>My expenses</h1>
-      <form @submit.prevent="addExpense">
+      <form @submit.prevent="addExpense(); filterExpenses();">
         <label>Enter expense <input type="text" v-model="expense"></label>
         <label>Enter amount <input type="number" v-model="amount"></label>
         <label>Enter date <input type="date" v-model="date"></label>
@@ -26,25 +26,25 @@
       <div>
         <h2>History</h2>
         <ul>
-          <li v-for="(expense, index) in filterExpenses()">
+          <li v-for="(expense, index) in dummy">
             <template v-if="!expense.edit">
               Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date
               {{expense.date}}
-              <button @click="deleteExpense(index)">Delete expense</button>
+              <button @click="deleteExpense(index); filterExpenses();">Delete expense</button>
               <button @click="expense.edit = !expense.edit">Edit expense</button>
             </template>
 
             <template v-if="expense.edit">
               <form>
-                <label>Expense <input type="text" v-model.lazy="expense.expense"></label>
-                <label>Amount <input type="number" v-model.lazy="expense.amount"></label>
-                <label>Date <input type="date" v-model.lazy="expense.date"></label>
+                <label>Expense <input type="text" v-model.lazy="expenses[index].expense"></label>
+                <label>Amount <input type="number" v-model.lazy="expenses[index].amount"></label>
+                <label>Date <input type="date" v-model.lazy="expenses[index].date"></label>
                 <label>Category
-                  <select v-model.lazy="expense.category">
+                  <select v-model.lazy="expenses[index].category">
                     <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
                   </select>
                 </label>
-                <button type="submit" @click="expense.edit = !expense.edit">Save expense</button>
+                <button type="submit" @click="expense.edit = !expense.edit; filterExpenses();">Save expense</button>
               </form>
             </template>
           </li>
@@ -54,7 +54,7 @@
         <form @submit.prevent="filterExpenses">
           <label>
             Category:
-            <select v-model.lazy="filterOptions.category">
+            <select v-model="filterOptions.category">
               <option value="all">All</option>
               <option v-for="type in expenseTypes" :value="type.toLowerCase()">
                 {{type}}      

@@ -2,13 +2,15 @@
 
 Budgetapp
 Features
-•	Utgift (text + belopp)
-o	Lägga till
-o	Ta bort
-o	Redigera text
-o	Redigera kategoritillhörighet
-•	Kategori (fördefinierade)
-•	Datumväljare
+•	Utgift (text + belopp) X
+o	Lägga till X
+o	Ta bort X
+o	Redigera text X
+o	Redigera kategoritillhörighet X
+•	Kategori (fördefinierade) X
+•	Datumväljare X
+    Default datum värde (idag).
+•   Filter alternativ/formulär
 •	Graf över utgifter per kategori/period
 o	Visar även filtrerad lista
 
