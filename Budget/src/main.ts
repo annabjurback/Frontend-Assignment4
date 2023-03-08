@@ -19,7 +19,20 @@ const app = createApp({
             amount: 0,
             category: "",
             date: "",
-            expenses: [],
+            expenses: [{
+                expense: "Cat",
+                amount: 10,
+                category: "household",
+                date: new Date().toISOString().substring(0, 10),
+                edit: false
+            },
+            {
+                expense: "Dog",
+                amount: 123,
+                category: "entertainment",
+                date: new Date().toISOString().substring(0, 10),
+                edit: false
+            }],
             // placeholderDate: new Date()
         }
     },
@@ -36,6 +49,6 @@ const app = createApp({
         },
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
-        }
+        },
     }
 }).mount('#app')

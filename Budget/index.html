@@ -26,20 +26,24 @@
     <div>
       <h2>History</h2>
       <ul>
-        <li v-for="(expense, index) in expenses">Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date {{expense.date}}
-          <button @click="deleteExpense(index)">Delete expense</button>
-          <button @click="expense.edit = !expense.edit">Edit expense</button>
+        <li v-for="(expense, index) in expenses">
+          <template v-if="!expense.edit">
+            Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date {{expense.date}}
+            <button @click="deleteExpense(index)">Delete expense</button>
+            <button @click="expense.edit = !expense.edit">Edit expense</button>
+          </template>
+
           <template v-if="expense.edit">
-          <form @submit.prevent="addExpense">
-            <label>Expense <input type="text" v-model="expense.expense"></label>
-            <label>Amount <input type="number" v-model="expense.amount"></label>
-            <label>Date <input type="date" v-model="expense.date"></label>
+          <form>
+            <label>Expense <input type="text" v-model.lazy="expense.expense"></label>
+            <label>Amount <input type="number" v-model.lazy="expense.amount"></label>
+            <label>Date <input type="date" v-model.lazy="expense.date"></label>
             <label>Category 
-              <select v-model="expense.category">
+              <select v-model.lazy="expense.category">
                 <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
               </select>
             </label>
-            <button type="submit">Save expense</button>
+            <button type="submit" @click="expense.edit = !expense.edit">Save expense</button>
           </form>
         </template>
         </li>
