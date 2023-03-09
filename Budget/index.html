@@ -11,7 +11,7 @@
   <body>
     <main id="app">
       <h1>My expenses</h1>
-      <form @submit.prevent="addExpense(); filterExpenses();">
+      <form @submit.prevent="addExpense();">
         <label>Enter expense <input type="text" v-model="expense" required></label>
         <label>Enter amount <input type="number" v-model="amount" required></label>
         <label>Enter date <input type="date" v-model="date" required></label>
@@ -26,22 +26,22 @@
       <div>
         <h2>History</h2>
         <ul>
-          <li v-for="(expense, index) in dummy">
+          <li v-for="(expense, index) in filterExpenses()">
             <template v-if="!expense.edit">
               <!-- Set proper html elements here -->
               Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date
               {{expense.date}}
-              <button @click="deleteExpense(index); filterExpenses();">Delete expense</button>
+              <button @click="deleteExpense(index);">Delete expense</button>
               <button @click="expense.edit = !expense.edit">Edit expense</button>
             </template>
 
             <template v-if="expense.edit">
-              <form @submit.prevent="expenses[index].edit = !expenses[index].edit; filterExpenses();">
-                <label>Expense <input type="text" v-model="expenses[index].expense"></label>
-                <label>Amount <input type="number" v-model="expenses[index].amount"></label>
-                <label>Date <input type="date" v-model="expenses[index].date"></label>
+              <form @submit.prevent="expense.edit = !expense.edit">
+                <label>Expense <input type="text" v-model="expense.expense"></label>
+                <label>Amount <input type="number" v-model="expense.amount"></label>
+                <label>Date <input type="date" v-model="expense.date"></label>
                 <label>Category
-                  <select v-model="expenses[index].category">
+                  <select v-model="expense.category">
                     <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
                   </select>
                 </label>
@@ -52,10 +52,10 @@
         </ul>
       </div>
       <footer>
-        <form @submit.prevent="filterExpenses">
+        <form @submit.prevent="applyFilter">
           <label>
             Category:
-            <select v-model="filterOptions.category">
+            <select v-model="filterSelect">
               <option value="all">All</option>
               <option v-for="type in expenseTypes" :value="type.toLowerCase()">
                 {{type}}      
