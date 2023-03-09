@@ -1,34 +1,39 @@
 # Frontend-Assignment4
 
-Budgetapp
-Features
-•	Utgift (text + belopp) X
-o	Lägga till X
-o	Ta bort X
-o	Redigera text X
-o	Redigera kategoritillhörighet X
-•	Kategori (fördefinierade) X
-•	Datumväljare X
-    Default datum värde (idag).
-•   Filter alternativ/formulär
-•	Graf över utgifter per kategori/period
-o	Visar även filtrerad lista
+## Budgetapp
 
-Techniques
-•	HTML & CSS
-•	Typescript
-•	Vue (installed)
-•	Components
-•	Playwright
-•	Canvas or SVG
+This is a budget app built for the course Frontend in .Net development at Teknikhögskolan. 
+The assignment is to create a complete Vue application at the same complexity as a "Todo" app.
 
-Kategorier
-•	Hushåll
-•	Resor
-•	Mat
-•	Nöje
-•	Kläder
-•	Övrigt
+### Features
 
-Input validation:
+* [x]	Utgift (text + belopp)
+* [x]	Lägga till 
+* [x]	Ta bort 
+    * [x]	Redigera text 
+    * [x]	Redigera kategoritillhörighet 
+* [x]	Kategori (fördefinierade) 
+* [x]	Datumväljare 
+    * [x]  Default datum värde (idag).
+* [ ]   Filter alternativ/formulär
+* [ ]   Graf över utgifter per kategori/period
+* [ ]	Visar även filtrerad lista
+
+### Techniques
+*	HTML & CSS
+*	Typescript
+*	Vue (installed)
+*	Components
+*	Playwright
+*	Canvas or SVG
+
+### Kategorier
+*	Hushåll
+*	Resor
+*	Mat
+*	Nöje
+*	Kläder
+*	Övrigt
+
+### Input validation:
     On editing/Creating an Expense dont allow/ignore empty inputs
