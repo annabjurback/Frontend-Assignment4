@@ -13,7 +13,7 @@ const app = createApp({
                 "Food",
                 "Entertainment",
                 "Clothing",
-                "Miscellanous"
+                "Miscellaneous"
             ],
             expense: "",
             amount: 0,
@@ -48,8 +48,14 @@ const app = createApp({
                 edit: false
             }],
             filterOptions: {
-                category: "all"
-            }
+                category: "all",
+                minimumAmount: 0,
+                maximumAmount: 99999999
+            },
+            maxAmount: 0,
+            minimumCostMax: 0,
+            maximumCostMin: 1000
+
             
             // placeholderDate: new Date()
         }

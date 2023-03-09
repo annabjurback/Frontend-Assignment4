@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
+    <!-- <link rel="icon" href="/favicon.ico"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget app</title>
   </head>
@@ -12,11 +12,11 @@
     <main id="app">
       <h1>My expenses</h1>
       <form @submit.prevent="addExpense(); filterExpenses();">
-        <label>Enter expense <input type="text" v-model="expense"></label>
-        <label>Enter amount <input type="number" v-model="amount"></label>
-        <label>Enter date <input type="date" v-model="date"></label>
+        <label>Enter expense <input type="text" v-model="expense" required></label>
+        <label>Enter amount <input type="number" v-model="amount" required></label>
+        <label>Enter date <input type="date" v-model="date" required></label>
         <label>Select category
-          <select v-model="category">
+          <select v-model="category" required>
             <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
           </select>
         </label>
@@ -63,8 +63,12 @@
             </select>
           </label>
           <label>
-            Price:
-            <input type="radio" name="filter">
+            Minimum cost:
+            <input type="range" name="filter" min="0" max="9999999">
+          </label>
+          <label>
+            Maximum cost:
+            <input type="range" name="filter" min="0" max="9999999">
           </label>
           <label>
             Date:
