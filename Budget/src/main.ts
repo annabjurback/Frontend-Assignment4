@@ -33,42 +33,26 @@ const app = createApp({
                 date: new Date().toISOString().substring(0, 10),
                 edit: false
             }],
-            dummy: [{
-                expense: "Cat",
-                amount: 10,
-                category: "household",
-                date: new Date().toISOString().substring(0, 10),
-                edit: false
-            },
-            {
-                expense: "Dog",
-                amount: 123,
-                category: "entertainment",
-                date: new Date().toISOString().substring(0, 10),
-                edit: false
-            }],
             filterOptions: {
                 category: "all",
                 minimumAmount: 0,
                 maximumAmount: 99999999
             },
+<<<<<<< HEAD
             maxAmount: 1,
             minimumPrice: 0,
             maximumPrice: 1,
+=======
+            filterSelect: "all",
+            maxAmount: 0,
+            minimumCostMax: 0,
+            maximumCostMin: 1000
+>>>>>>> d056772031242cf2e800a98dbf466107be194a23
 
             
             // placeholderDate: new Date()
         }
     },
-    // watch: {
-    //     expenses: {
-    //         handler(edit, someEdit) {
-    //             this.filterExpenses();
-    //         },
-    //         deep: true
-
-    //     }
-    // },
     methods: {
         addExpense() {
             let newItem = {
@@ -85,17 +69,25 @@ const app = createApp({
             this.expenses.splice(index, 1);
         },
         filterExpenses() {
+            let dummy;
             if(this.filterOptions.category === "all"){
-                this.dummy = this.expenses.slice();
+                dummy = this.expenses.slice();
             }
             else {
-                this.dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
+                dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
             }
 
+<<<<<<< HEAD
             return this.dummy;
         },
         setMaxAmount() {
             this.maxAmount = Math.max(this.expenses.map((ex: {amount: number}) => ex.amount));
+=======
+            return dummy;
+        },
+        applyFilter() {
+            this.filterOptions.category = this.filterSelect;
+>>>>>>> d056772031242cf2e800a98dbf466107be194a23
         }
     }
 }).mount('#app')
