@@ -52,9 +52,9 @@ const app = createApp({
                 minimumAmount: 0,
                 maximumAmount: 99999999
             },
-            maxAmount: 0,
-            minimumCostMax: 0,
-            maximumCostMin: 1000
+            maxAmount: 1,
+            minimumPrice: 0,
+            maximumPrice: 1,
 
             
             // placeholderDate: new Date()
@@ -79,6 +79,7 @@ const app = createApp({
                 edit: false
             };
             this.expenses.push(newItem);
+            this.setMaxAmount();
         },
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
@@ -92,6 +93,9 @@ const app = createApp({
             }
 
             return this.dummy;
+        },
+        setMaxAmount() {
+            this.maxAmount = Math.max(this.expenses.map((ex: {amount: number}) => ex.amount));
         }
     }
 }).mount('#app')
