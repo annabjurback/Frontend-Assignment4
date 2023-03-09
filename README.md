@@ -29,3 +29,6 @@ Kategorier
 •	Nöje
 •	Kläder
 •	Övrigt
+
+Input validation:
+    On editing/Creating an Expense dont allow/ignore empty inputs
