@@ -38,16 +38,11 @@ const app = createApp({
                 minimumAmount: 0,
                 maximumAmount: 99999999
             },
-<<<<<<< HEAD
-            maxAmount: 1,
-            minimumPrice: 0,
-            maximumPrice: 1,
-=======
+
             filterSelect: "all",
             maxAmount: 0,
             minimumCostMax: 0,
             maximumCostMin: 1000
->>>>>>> d056772031242cf2e800a98dbf466107be194a23
 
             
             // placeholderDate: new Date()
@@ -77,17 +72,13 @@ const app = createApp({
                 dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
             }
 
-<<<<<<< HEAD
-            return this.dummy;
+            return dummy;
         },
         setMaxAmount() {
             this.maxAmount = Math.max(this.expenses.map((ex: {amount: number}) => ex.amount));
-=======
-            return dummy;
         },
         applyFilter() {
             this.filterOptions.category = this.filterSelect;
->>>>>>> d056772031242cf2e800a98dbf466107be194a23
         }
     }
 }).mount('#app')
