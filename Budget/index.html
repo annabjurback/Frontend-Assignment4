@@ -28,6 +28,7 @@
         <ul>
           <li v-for="(expense, index) in dummy">
             <template v-if="!expense.edit">
+              <!-- Set proper html elements here -->
               Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date
               {{expense.date}}
               <button @click="deleteExpense(index); filterExpenses();">Delete expense</button>
@@ -35,16 +36,16 @@
             </template>
 
             <template v-if="expense.edit">
-              <form>
-                <label>Expense <input type="text" v-model.lazy="expenses[index].expense"></label>
-                <label>Amount <input type="number" v-model.lazy="expenses[index].amount"></label>
-                <label>Date <input type="date" v-model.lazy="expenses[index].date"></label>
+              <form @submit.prevent="expenses[index].edit = !expenses[index].edit; filterExpenses();">
+                <label>Expense <input type="text" v-model="expenses[index].expense"></label>
+                <label>Amount <input type="number" v-model="expenses[index].amount"></label>
+                <label>Date <input type="date" v-model="expenses[index].date"></label>
                 <label>Category
-                  <select v-model.lazy="expenses[index].category">
+                  <select v-model="expenses[index].category">
                     <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
                   </select>
                 </label>
-                <button type="submit" @click="expense.edit = !expense.edit; filterExpenses();">Save expense</button>
+                <button type="submit">Save expense</button>
               </form>
             </template>
           </li>

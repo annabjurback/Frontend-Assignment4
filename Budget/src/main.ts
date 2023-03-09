@@ -18,7 +18,7 @@ const app = createApp({
             expense: "",
             amount: 0,
             category: "",
-            date: "",
+            date: new Date().toISOString().substring(0, 10),
             expenses: [{
                 expense: "Cat",
                 amount: 10,
@@ -54,6 +54,15 @@ const app = createApp({
             // placeholderDate: new Date()
         }
     },
+    // watch: {
+    //     expenses: {
+    //         handler(edit, someEdit) {
+    //             this.filterExpenses();
+    //         },
+    //         deep: true
+
+    //     }
+    // },
     methods: {
         addExpense() {
             let newItem = {
