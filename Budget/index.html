@@ -37,9 +37,9 @@
 
             <template v-if="expense.edit">
               <form @submit.prevent="expense.edit = !expense.edit">
-                <label>Expense <input type="text" v-model="expense.expense"></label>
-                <label>Amount <input type="number" v-model="expense.amount"></label>
-                <label>Date <input type="date" v-model="expense.date"></label>
+                <label>Expense <input type="text" v-model="expense.expense" required></label>
+                <label>Amount <input type="number" v-model="expense.amount" required></label>
+                <label>Date <input type="date" v-model="expense.date" required></label>
                 <label>Category
                   <select v-model="expense.category">
                     <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
