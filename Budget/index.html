@@ -64,12 +64,12 @@
           </label>
           <!-- cost slider start -->
           <label>
-            Minimum cost:
-            <input type="range" name="filter" min="0" max="9999999">
+            Minimum cost: {{filterOptions.minimumAmount}} kr
+            <input type="range" name="filter" min="0" max="9999999" v-model="filterOptions.minimumAmount">
           </label>
           <label>
-            Maximum cost:
-            <input type="range" name="filter" min="0" max="9999999">
+            Maximum cost: {{filterOptions.maximumAmount}} kr
+            <input type="range" name="filter" min="0" max="9999999" v-model="filterOptions.maximumAmount">
           </label>
           <!-- cost slider end -->
           <label>
