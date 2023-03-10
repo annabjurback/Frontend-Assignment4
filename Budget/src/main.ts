@@ -32,7 +32,7 @@ const app = createApp({
                 category: "entertainment",
                 date: new Date().toISOString().substring(0, 10),
                 edit: false
-            }],
+            } as { expense: string, amount: number, category: string, edit: boolean, date: string }],
             filterOptions: {
                 category: "all",
                 month: "",
@@ -49,7 +49,7 @@ const app = createApp({
             maximumCostMin: 1000
             // placeholderDate: new Date()
 
-            
+
         }
     },
     methods: {
@@ -69,7 +69,7 @@ const app = createApp({
         },
         filterExpenses() {
             let dummy;
-            if(this.filterOptions.category === "all") {
+            if (this.filterOptions.category === "all") {
                 dummy = this.expenses.slice();
             }
             else {
@@ -84,7 +84,11 @@ const app = createApp({
         },
         setMaxAmount() {
             // cost filter method
-            this.maxAmount = Math.max(this.expenses.map((ex: {amount: number}) => ex.amount));
+            // ChatGPT helped with this one
+            this.maxAmount = this.expenses.reduce((max: number, currentExpense: any) => {
+                return currentExpense.amount > max ? currentExpense.amount : max;
+            }, 0);
+
         },
         applyFilter() {
             this.filterOptions.category = this.filterSelect;
