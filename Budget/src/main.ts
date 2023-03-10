@@ -40,12 +40,13 @@ const app = createApp({
             },
 
             filterSelect: "all",
+            // Cost slider variables:
             maxAmount: 0,
             minimumCostMax: 0,
             maximumCostMin: 1000
+            // placeholderDate: new Date()
 
             
-            // placeholderDate: new Date()
         }
     },
     methods: {
@@ -75,6 +76,7 @@ const app = createApp({
             return dummy;
         },
         setMaxAmount() {
+            // cost filter method
             this.maxAmount = Math.max(this.expenses.map((ex: {amount: number}) => ex.amount));
         },
         applyFilter() {
