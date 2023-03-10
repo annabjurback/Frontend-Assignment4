@@ -35,11 +35,14 @@ const app = createApp({
             }],
             filterOptions: {
                 category: "all",
+                month: "",
                 minimumAmount: 0,
                 maximumAmount: 99999999
             },
 
             filterSelect: "all",
+
+            selectedMonth: "",
             // Cost slider variables:
             maxAmount: 0,
             minimumCostMax: 0,
@@ -66,13 +69,17 @@ const app = createApp({
         },
         filterExpenses() {
             let dummy;
-            if(this.filterOptions.category === "all"){
+            if(this.filterOptions.category === "all") {
                 dummy = this.expenses.slice();
             }
             else {
                 dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
             }
-
+            
+            // If month is not an empty string. Apply month filter.
+            if(this.filterOptions !== "") {
+                dummy = dummy.filter((ex: { date: string}) => ex.date.includes(this.filterOptions.month));
+            }
             return dummy;
         },
         setMaxAmount() {
@@ -81,6 +88,16 @@ const app = createApp({
         },
         applyFilter() {
             this.filterOptions.category = this.filterSelect;
+            
+            this.filterOptions.month = this.selectedMonth;
+        },
+        resetFilter() {
+            this.filterOptions.category = "all";
+            this.filterOptions.month = "";
+
+            this.filterSelect = "all";
+            this.selectedMonth = "";
+            this.filterExpenses();
         }
     }
 }).mount('#app')
