@@ -42,7 +42,9 @@
                 <label>Date <input type="date" v-model="expense.date" required></label>
                 <label>Category
                   <select v-model="expense.category">
-                    <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
+                    <option v-for="type in expenseTypes" :value="type.toLowerCase()">
+                      {{type}}
+                    </option>
                   </select>
                 </label>
                 <button type="submit">Save expense</button>
@@ -73,11 +75,12 @@
           </label>
           <!-- cost slider end -->
           <label>
-            Date:
-            <input type="radio" name="filter">
+            Month:
+            <input type="month" v-model="selectedMonth" name="filter">
           </label>
           <button type="submit">Filter</button>
         </form>
+        <button @click="resetFilter">Clear Filters</button>
         <p>max amount: {{maxAmount}}</p>
       </footer>
     </main>
