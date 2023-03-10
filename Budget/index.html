@@ -66,12 +66,12 @@
           </label>
           <!-- cost slider start -->
           <label>
-            Minimum cost: {{filterOptions.minimumAmount}} kr
-            <input type="range" name="filter" min="0" max="9999999" v-model="filterOptions.minimumAmount">
+            Minimum cost: {{minimumAmountSelect}} kr
+            <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="minimumAmountSelect" @change="setMaximumSliderValue">
           </label>
           <label>
-            Maximum cost: {{filterOptions.maximumAmount}} kr
-            <input type="range" name="filter" min="0" max="9999999" v-model="filterOptions.maximumAmount">
+            Maximum cost: {{maximumAmountSelect}} kr
+            <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="maximumAmountSelect" @change="setMinimumSliderValue">
           </label>
           <!-- cost slider end -->
           <label>
@@ -81,7 +81,8 @@
           <button type="submit">Filter</button>
         </form>
         <button @click="resetFilter">Clear Filters</button>
-        <p>max amount: {{maxAmount}}</p>
+        <p>max amount: {{setMaxAmount()}}{{maxAmountForSliders}} <br>
+        </p>
       </footer>
     </main>
     <script type="module" src="/src/main.ts"></script>

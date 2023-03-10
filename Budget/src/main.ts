@@ -37,19 +37,13 @@ const app = createApp({
                 category: "all",
                 month: "",
                 minimumAmount: 0,
-                maximumAmount: 99999999
+                maximumAmount: 0
             },
-
             filterSelect: "all",
-
             selectedMonth: "",
-            // Cost slider variables:
-            maxAmount: 0,
-            minimumCostMax: 0,
-            maximumCostMin: 1000
-            // placeholderDate: new Date()
-
-
+            minimumAmountSelect: 0,
+            maximumAmountSelect: 0,
+            maxAmountForSliders: 0,
         }
     },
     methods: {
@@ -63,17 +57,26 @@ const app = createApp({
             };
             this.expenses.push(newItem);
             this.setMaxAmount();
+            this.setMaximumSliderValue();
         },
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
         },
         filterExpenses() {
+            this.setMaximumSliderValue();
+
             let dummy;
             if (this.filterOptions.category === "all") {
                 dummy = this.expenses.slice();
             }
             else {
                 dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
+            }
+
+            // If cost filter maximum is > 0
+            if (this.filterOptions.maximumAmount !== 0)
+            {
+                dummy = dummy.filter((ex: {amount: number}) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
             }
             
             // If month is not an empty string. Apply month filter.
@@ -83,21 +86,38 @@ const app = createApp({
             return dummy;
         },
         setMaxAmount() {
-            // cost filter method
             // ChatGPT helped with this one
-            this.maxAmount = this.expenses.reduce((max: number, currentExpense: any) => {
+            this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
                 return currentExpense.amount > max ? currentExpense.amount : max;
-            }, 0);
-
+            }, 0); 
+        },
+        setMinimumSliderValue() {
+            if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
+                this.minimumAmountSelect = this.maximumAmountSelect;
+            }
+        },
+        setMaximumSliderValue() {
+            if(this.maximumAmountSelect === 0)
+            {
+                this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
+            }
+            if (parseInt(this.minimumAmountSelect) > parseInt(this.maximumAmountSelect)) {
+                this.maximumAmountSelect = this.minimumAmountSelect;
+            }
         },
         applyFilter() {
             this.filterOptions.category = this.filterSelect;
-            
+            this.filterOptions.minimumAmount = this.minimumAmountSelect;
+            this.filterOptions.maximumAmount = this.maximumAmountSelect;
             this.filterOptions.month = this.selectedMonth;
         },
         resetFilter() {
             this.filterOptions.category = "all";
             this.filterOptions.month = "";
+
+            this.filterOptions.minimumAmount = 0;
+            this.setMaxAmount();
+            this.filterOptions.maximumAmount = parseInt(this.maxAmountForSliders);
 
             this.filterSelect = "all";
             this.selectedMonth = "";
