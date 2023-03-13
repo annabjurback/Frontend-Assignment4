@@ -1,0 +1,27 @@
+{
+  "name": "frontend-assignment4",
+  "version": "1.0.0",
+  "description": "This is a budget app built for the course Frontend in .Net development at Teknikhögskolan. \r The assignment is to create a complete Vue application at the same complexity as a \"Todo\" app.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "playwright-core": "^1.31.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.31.2"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annabjurback/Frontend-Assignment4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/annabjurback/Frontend-Assignment4/issues"
+  },
+  "homepage": "https://github.com/annabjurback/Frontend-Assignment4#readme"
+}
