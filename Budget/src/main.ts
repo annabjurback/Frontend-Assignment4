@@ -15,10 +15,10 @@ const app = createApp({
                 "Clothing",
                 "Miscellaneous"
             ],
-            expense: "",
-            amount: 0,
-            category: "",
-            date: new Date().toISOString().substring(0, 10),
+            expense: "" as string,
+            amount: 0 as number,
+            category: "" as string,
+            date: new Date().toISOString().substring(0, 10) as string,
             expenses: [{
                 expense: "Cat",
                 amount: 10,
@@ -32,18 +32,25 @@ const app = createApp({
                 category: "entertainment",
                 date: new Date().toISOString().substring(0, 10),
                 edit: false
+            },
+            {
+                expense: "Dog2",
+                amount: 124,
+                category: "entertainment",
+                date: new Date().toISOString().substring(0, 10),
+                edit: false
             } as { expense: string, amount: number, category: string, edit: boolean, date: string }],
             filterOptions: {
                 category: "all",
                 month: "",
                 minimumAmount: 0,
                 maximumAmount: 0
-            },
-            filterSelect: "all",
-            selectedMonth: "",
-            minimumAmountSelect: 0,
-            maximumAmountSelect: 0,
-            maxAmountForSliders: 0,
+            } as {category: string, month: string, minimumAmount:number, maximumAmount: number},
+            filterSelect: "all" as string,
+            selectedMonth: "" as string,
+            minimumAmountSelect: 0 as number,
+            maximumAmountSelect: 0 as number,
+            maxAmountForSliders: 0 as number,
         }
     },
     methods: {
@@ -56,11 +63,11 @@ const app = createApp({
                 edit: false
             };
             this.expenses.push(newItem);
-            this.setMaximumSliderValue();
+            this.setMaxAmount();
         },
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
-            this.SetMaxAmount();
+            this.setMaximumSliderValue();
         },
         filterExpenses() {
             this.setMaximumSliderValue();
@@ -100,12 +107,19 @@ const app = createApp({
         },
         setMaximumSliderValue() {
             this.setMaxAmount();
+            // If zero is selected, assume the full range
             if(this.maximumAmountSelect === 0)
             {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
             }
+            // If selected minimum amount is larger than selected maximum amount, set max to min value 
             if (parseInt(this.minimumAmountSelect) > parseInt(this.maximumAmountSelect)) {
                 this.maximumAmountSelect = this.minimumAmountSelect;
+            }
+            // If current maximum expense is less than selected max, set selected max to current maximum expense 
+            if (parseInt(this.maxAmountForSliders) < parseInt(this.maximumAmountSelect))
+            {
+                this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
             }
         },
         applyFilter() {
@@ -116,13 +130,13 @@ const app = createApp({
         },
         resetFilter() {
             this.filterOptions.category = "all";
+            this.filterOptions.minimumAmount = 0;
+            this.filterOptions.maximumAmount = this.maxAmountForSliders;
             this.filterOptions.month = "";
 
-            this.filterOptions.minimumAmount = 0;
-            this.setMaxAmount();
-            this.filterOptions.maximumAmount = parseInt(this.maxAmountForSliders);
-
             this.filterSelect = "all";
+            this.minimumAmountSelect = 0;
+            this.maximumAmountSelect = this.maxAmountForSliders;
             this.selectedMonth = "";
             this.filterExpenses();
         },
