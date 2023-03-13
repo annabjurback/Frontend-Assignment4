@@ -16,8 +16,8 @@ The assignment is to create a complete Vue application at the same complexity as
 * [x]	Datumväljare 
     * [x]  Default datum värde (idag).
 * [ ]   Filter alternativ/formulär
-   * [ ] Month picker filter
-   * [ ] Between two costs filter
+   * [x] Month picker filter
+   * [ ] Between two costs filter (incl. proper reset)
    * [x] Category filter
 * [ ]   Graf över utgifter per kategori/period
 * [ ]	Visar även filtrerad lista
@@ -26,9 +26,12 @@ The assignment is to create a complete Vue application at the same complexity as
 *	HTML & CSS
 *	Typescript
 *	Vue (installed)
-*	Components
 *	Playwright
 *	Canvas or SVG
+
+### Maybe also:
+*	Components
+
 
 ### Kategorier
 *	Hushåll
