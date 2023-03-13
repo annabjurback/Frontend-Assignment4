@@ -56,11 +56,11 @@ const app = createApp({
                 edit: false
             };
             this.expenses.push(newItem);
-            this.setMaxAmount();
             this.setMaximumSliderValue();
         },
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
+            this.SetMaxAmount();
         },
         filterExpenses() {
             this.setMaximumSliderValue();
@@ -73,7 +73,7 @@ const app = createApp({
                 dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
             }
 
-            // If cost filter maximum is > 0
+            // Only applies cost filter if a maximum cost is selected (i.e it is not at 0)
             if (this.filterOptions.maximumAmount !== 0)
             {
                 dummy = dummy.filter((ex: {amount: number}) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
@@ -85,18 +85,21 @@ const app = createApp({
             }
             return dummy;
         },
+        // Sets the highest entered amount for an expense (used for cost filter sliders)
         setMaxAmount() {
             // ChatGPT helped with this one
             this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
                 return currentExpense.amount > max ? currentExpense.amount : max;
             }, 0); 
         },
+        // The two methods below keep track of the selected values in the minimum and maximum amount sliders, so that the selected minimum amount cannot exeed selected maximum amount, and vice versa
         setMinimumSliderValue() {
             if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
                 this.minimumAmountSelect = this.maximumAmountSelect;
             }
         },
         setMaximumSliderValue() {
+            this.setMaxAmount();
             if(this.maximumAmountSelect === 0)
             {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
@@ -122,6 +125,9 @@ const app = createApp({
             this.filterSelect = "all";
             this.selectedMonth = "";
             this.filterExpenses();
+        },
+        capitalize(string: string): string  {
+            return string[0].toUpperCase() + string.slice(1);
         }
     }
 }).mount('#app')
