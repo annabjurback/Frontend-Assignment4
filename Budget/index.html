@@ -31,7 +31,10 @@
           <li v-for="(expense, index) in filterExpenses()" :class="{ expense: !expense.edit }">
             <template v-if="!expense.edit" >
               <!-- Set proper html elements here -->
-              <span class="expense-name">{{capitalize(expense.expense)}}</span> <span class="expense-amount">{{expense.amount}} kr</span> <span class="expense-category"> {{capitalize(expense.category)}}</span> <span class="expense-date"> {{expense.date}}</span>
+              <span class="expense-name">{{capitalize(expense.expense)}}</span> 
+              <span class="expense-amount">{{expense.amount}} kr</span>
+              <span class="expense-category"> {{capitalize(expense.category)}}</span> 
+              <span class="expense-date"> {{expense.date}}</span>
               
               <button @click="deleteExpense(index);" class="delete-button">Delete expense</button>
               <button @click="expense.edit = !expense.edit" class="edit-button">Edit expense</button>
