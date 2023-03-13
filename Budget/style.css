@@ -3,3 +3,114 @@
     padding: 0;
     font-family: 'Yatra One';
 }
+
+.expense {
+    display: grid;
+    /* forward slash denotes grid-template-columns spacing */
+    grid-template:
+    "a a a a b b c c" 30px
+    "d d d d e e f f" 30px / 5fr 3fr 2fr;
+
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    align-items: center;
+    padding: 5px;
+}
+
+.expense-name{
+    grid-area: a;
+    font-size: 1.4em;
+    padding-left: 10px;
+}
+.expense-amount{
+    grid-area: b;
+    font-size: 1.4em;
+}
+.expense-category {
+    grid-area: d;
+    padding-left: 5px;
+    padding-bottom: 3px;
+}
+.expense-date {
+    grid-area: e;
+    padding-bottom: 3px;
+
+}
+.delete-button {
+    grid-area: f;
+    border: none;
+    background-color: rgb(190, 82, 82);
+    border-radius: 5px;
+    padding: 5px;
+}
+.edit-button {
+    grid-area: c;
+    border: none;
+    background-color: rgb(87, 198, 96);
+    border-radius: 5px;
+        padding: 5px;
+}
+
+.edit-form {
+    display: grid;
+    grid-template:
+    "a a a a"
+    "b b b b"
+    "c c c c"
+    "d d d d"
+    "e e e e";
+
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.edit-form > * {
+    display: flex;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+.expense-label {
+    grid-area: a;
+}
+.expense-label input {
+    width: 50%;
+    margin-left: auto;
+}
+
+.amount-label {
+    grid-area: b;
+}
+.amount-label input {
+    width: 50%;
+    margin-left: auto;
+}
+
+.date-label {
+    grid-area: c;
+}
+.date-label input {
+    width: 50%;
+    margin-left: auto;
+}
+
+.category-label {
+    grid-area: d;
+}
+.category-label select {
+    width: 50%;
+    margin-left: auto;
+}
+
+.save-button {
+    display: grid;
+    margin: 0;
+    padding: 5px;
+    grid-area: e;
+    border: none;
+    background-color: rgb(87, 198, 96);
+    border-radius: 5px;
+    text-align: center;
+}
