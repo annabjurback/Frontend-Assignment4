@@ -31,25 +31,25 @@
           <li v-for="(expense, index) in filterExpenses()">
             <template v-if="!expense.edit">
               <!-- Set proper html elements here -->
-              Name: {{expense.expense}}, cost: {{expense.amount}}, category: {{expense.category}} on date
-              {{expense.date}}
-              <button @click="deleteExpense(index);">Delete expense</button>
-              <button @click="expense.edit = !expense.edit">Edit expense</button>
+              <span class="expense-name">{{expense.expense}}</span> <span class="expense-amount">{{expense.amount}} kr</span> <span class="expense-category"> {{expense.category}}</span> <span class="expense-date"> {{expense.date}}</span>
+              
+              <button @click="deleteExpense(index);" class="delete-button">Delete expense</button>
+              <button @click="expense.edit = !expense.edit" class="edit-button">Edit expense</button>
             </template>
 
             <template v-if="expense.edit">
               <form @submit.prevent="expense.edit = !expense.edit">
-                <label>Expense <input type="text" v-model="expense.expense" required></label>
-                <label>Amount <input type="number" v-model="expense.amount" required></label>
-                <label>Date <input type="date" v-model="expense.date" required></label>
-                <label>Category
+                <label class="expense-label">Expense <input type="text" v-model="expense.expense" required></label>
+                <label class="amount-label">Amount <input type="number" v-model="expense.amount" required></label>
+                <label class="date-label">Date <input type="date" v-model="expense.date" required></label>
+                <label class="category-label">Category
                   <select v-model="expense.category">
                     <option v-for="type in expenseTypes" :value="type.toLowerCase()">
                       {{type}}
                     </option>
                   </select>
                 </label>
-                <button type="submit">Save expense</button>
+                <button type="submit" class="save-button">Save expense</button>
               </form>
             </template>
           </li>
