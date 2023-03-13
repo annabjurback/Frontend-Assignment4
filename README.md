@@ -26,9 +26,12 @@ The assignment is to create a complete Vue application at the same complexity as
 *	HTML & CSS
 *	Typescript
 *	Vue (installed)
-*	Components
 *	Playwright
 *	Canvas or SVG
+
+### Maybe also:
+*	Components
+
 
 ### Kategorier
 *	Hushåll
