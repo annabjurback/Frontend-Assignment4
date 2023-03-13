@@ -13,12 +13,13 @@
   <body>
     <main id="app">
       <h1>My expenses</h1>
+      <!-- ADD EXPENSE -->
       <form @submit.prevent="addExpense();">
-        <label>Enter expense: <input type="text" v-model="expense" required></label>
-        <label>Enter amount: <input type="number" v-model="amount" required></label>
-        <label>Enter date: <input type="date" v-model="date" required></label>
+        <label>Enter expense: <input type="text" v-model="expense" id="input-name-field" required></label>
+        <label>Enter amount: <input type="number" v-model="amount" id="input-amount-field" required></label>
+        <label>Enter date: <input type="date" v-model="date" id="input-date-field" required></label>
         <label>Select category:
-          <select v-model="category" required>
+          <select v-model="category" id='input-category-select' required>
             <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
           </select>
         </label>
@@ -28,9 +29,9 @@
       <div>
         <h2>History</h2>
         <ul>
+          <!-- EXPENSE LIST -->
           <li v-for="(expense, index) in filterExpenses()" :class="{ expense: !expense.edit }">
             <template v-if="!expense.edit" >
-              <!-- Set proper html elements here -->
               <span class="expense-name">{{capitalize(expense.expense)}}</span> 
               <span class="expense-amount">{{expense.amount}} kr</span>
               <span class="expense-category"> {{capitalize(expense.category)}}</span> 
@@ -40,6 +41,7 @@
               <button @click="expense.edit = !expense.edit" class="edit-button">Edit expense</button>
             </template>
 
+            <!-- visible when edit -->
             <template v-if="expense.edit">
               <form @submit.prevent="expense.edit = !expense.edit" class="edit-form">
                 <label class="expense-label">Expense: <input type="text" v-model="expense.expense" required></label>
@@ -59,6 +61,7 @@
         </ul>
       </div>
       <footer>
+        <!-- FILTER -->
         <form @submit.prevent="applyFilter">
           <label>
             Category:
@@ -69,7 +72,6 @@
               </option>
             </select>
           </label>
-          <!-- cost slider start -->
           <label>
             Minimum cost: {{minimumAmountSelect}} kr
             <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="minimumAmountSelect" @change="setMaximumSliderValue">
@@ -78,7 +80,6 @@
             Maximum cost: {{maximumAmountSelect}} kr
             <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="maximumAmountSelect" @change="setMinimumSliderValue">
           </label>
-          <!-- cost slider end -->
           <label>
             Month:
             <input type="month" v-model="selectedMonth" name="filter">
@@ -86,8 +87,7 @@
           <button type="submit">Filter</button>
         </form>
         <button @click="resetFilter">Clear Filters</button>
-        <p>max amount: {{setMaxAmount()}}{{maxAmountForSliders}} <br>
-        </p>
+        <p>max amount: {{setMaxAmount()}}{{maxAmountForSliders}}</p>
       </footer>
     </main>
     <script type="module" src="/src/main.ts"></script>
