@@ -28,7 +28,7 @@ test('ensure expense name input', async ({ page }) => {
   // Get last list item
   let lastItem = await page.locator('ul li').last();
   // Get expense name for last item
-  let lastExpenseName = await lastItem.locator('.expense-name').textContent;
+  let lastExpenseName = await lastItem.locator('.expense-name').textContent();
   
   // Expect the last expense to contain coffee.
   await expect(lastExpenseName).toEqual('Coffee');
