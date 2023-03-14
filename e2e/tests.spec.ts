@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
-  await page.goto('http://localhost:5174/'); // finns det ett bättre sätt? funkar inte  rakt av med liveserver
+  // finns det ett bättre sätt? funkar inte  rakt av med liveserver
+  await page.goto('http://localhost:5173/');
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Budget/);
@@ -9,7 +10,7 @@ test('has title', async ({ page }) => {
 
 
 test('ensure expense name input', async ({ page }) => {
-  await page.goto('http://localhost:5174/');
+  await page.goto('http://localhost:5173/');
 
   // Get input fields.
   let inputName = await page.locator('#input-name-field');
@@ -19,8 +20,8 @@ test('ensure expense name input', async ({ page }) => {
   // Fill input fields.
   await inputName.fill('Coffee'); 
   await inputAmount.fill('30');
-  await inputCategory.selectOption('Household'); // går det att välja via value?
-
+  // går det att välja via value?
+  await inputCategory.selectOption('Household'); 
   // Commit inputs
   await page.keyboard.press('Enter');
 
