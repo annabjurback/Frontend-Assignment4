@@ -2,25 +2,69 @@
     margin: 0;
     padding: 0;
     font-family: 'Yatra One';
+    box-sizing: border-box;
 }
 
+html {
+    background-color: #2f3035;
+    color: #F8F8F8;
+}
+
+h1 {
+    margin: 10px;
+    color: #E3B04B;
+    text-shadow: 10px 5px 0px #5a5040;
+}
+#create-expense {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+#create-expense > label {
+    display: flex;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    width: 100%;
+    font-family: 'Oswald';
+}
+#create-expense > label > * {
+    width: 50%;
+    font-size: 1.1em;
+    margin-left: auto;
+    font-family: 'Oswald';
+}
+#create-expense button{
+    border: none;
+    font-size: 1.2em;
+    color: #F8F8F8;
+    text-shadow: 0px 0px 2px black;
+    background-color: #E3B04B;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'Oswald';
+}
+
+h2 {
+    margin: 10px;
+    color: #E3B04B;
+}
 .expense {
     display: grid;
     /* forward slash denotes grid-template-columns spacing */
     grid-template:
-    "a a a a b b c c" 30px
-    "d d d d e e f f" 30px / 5fr 3fr 2fr;
-
-    border: 1px solid gray;
-    border-radius: 3px;
-    margin-bottom: 10px;
+    "a b c"
+    "d e f" / 5fr 3fr 2fr;
     align-items: center;
-    padding: 5px;
+    padding: 5px 0px;
+}
+.expense:nth-child(odd) {
+    background-color: #404147;
 }
 
 .expense-name{
     grid-area: a;
-    font-size: 1.4em;
+    font-size: 1.5em;
     padding-left: 10px;
 }
 .expense-amount{
@@ -30,26 +74,36 @@
 .expense-category {
     grid-area: d;
     padding-left: 5px;
-    padding-bottom: 3px;
+    font-family: 'Oswald';
 }
 .expense-date {
     grid-area: e;
-    padding-bottom: 3px;
-
+    font-family: 'Oswald';
 }
 .delete-button {
     grid-area: f;
     border: none;
-    background-color: rgb(190, 82, 82);
+    font-family: 'Oswald';
+    font-size: 1em;
+    color: #F8F8F8;
+    text-shadow: 0px 0px 1px black;
+    background-color: #d1ba95;
     border-radius: 5px;
-    padding: 5px;
+    padding: 5px 0px;
+    margin-top: 2px;
+    margin-right: 5px;
 }
 .edit-button {
     grid-area: c;
     border: none;
-    background-color: rgb(87, 198, 96);
+    font-family: 'Oswald';
+    font-size: 1em;
+    color: #F8F8F8;
+    text-shadow: 0px 0px 1px black;
+    background-color: #E3B04B;
     border-radius: 5px;
-        padding: 5px;
+    padding: 5px 0px;
+    margin-right: 5px;
 }
 
 .edit-form {

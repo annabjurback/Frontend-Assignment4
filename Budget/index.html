@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <!-- <link rel="icon" href="/favicon.ico"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Yatra+One" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Budget app</title>
   </head>
 
   <body>
     <main id="app">
-      <h1>My expenses</h1>
+      <h1>MY EXPENSES</h1>
       <!-- ADD EXPENSE -->
       <form @submit.prevent="addExpense();" id="create-expense">
         <label>Enter expense: <input type="text" v-model="expense" id="input-name-field" required></label>
