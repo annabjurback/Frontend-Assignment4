@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
-  // finns det ett bättre sätt? funkar inte  rakt av med liveserver
-  await page.goto('http://localhost:5173/');
+  // Finns det ett bättre sätt? funkar inte rakt av med liveserver
+  await page.goto('http://localhost:5174/');
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Budget/);
@@ -10,7 +10,7 @@ test('has title', async ({ page }) => {
 
 
 test('ensure expense name input', async ({ page }) => {
-  await page.goto('http://localhost:5173/');
+  await page.goto('http://localhost:5174/');
 
   // Get input fields.
   let inputName = await page.locator('#input-name-field');
@@ -20,12 +20,11 @@ test('ensure expense name input', async ({ page }) => {
   // Fill input fields.
   await inputName.fill('Coffee'); 
   await inputAmount.fill('30');
-  // går det att välja via value?
+  // går det att välja via value på selecten?
   await inputCategory.selectOption('Household'); 
   // Commit inputs
   await page.keyboard.press('Enter');
 
-  // Funkar inte, jag måste göra det i två steg!
   // Get last list item
   let lastItem = await page.locator('ul li').last();
   // Get expense name for last item
@@ -33,4 +32,11 @@ test('ensure expense name input', async ({ page }) => {
   
   // Expect the last expense to contain coffee.
   await expect(lastExpenseName).toEqual('Coffee');
+});
+
+test ('ensure cost sliders sync', async ({page}) => {
+  await page.goto('http://localhost:5174/');
+
+  // Get slider values
+  let minSliderValue = await page.locator
 });
