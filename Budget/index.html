@@ -63,8 +63,8 @@
       </div>
       <footer>
         <!-- FILTER -->
-        <form @submit.prevent="applyFilter">
-          <label>
+        <form @submit.prevent="applyFilter" id="filter-form">
+          <label class="category-filter">
             Category:
             <select v-model="filterSelect">
               <option value="all">All</option>
@@ -73,15 +73,15 @@
               </option>
             </select>
           </label>
-          <label>
+          <label class="minimum-filter">
             Minimum cost: {{minimumAmountSelect}} kr
             <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="minimumAmountSelect" @change="setMaximumSliderValue">
           </label>
-          <label>
+          <label class="maximum-filter">
             Maximum cost: {{maximumAmountSelect}} kr
             <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="maximumAmountSelect" @change="setMinimumSliderValue">
           </label>
-          <label>
+          <label class="month-filter">
             Month:
             <input type="month" v-model="selectedMonth" name="filter">
           </label>

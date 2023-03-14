@@ -168,3 +168,25 @@ h2 {
     border-radius: 5px;
     text-align: center;
 }
+
+#filter-form {
+    display: grid;
+
+    grid-template:
+    "a b c"
+    "d e f"
+    "g g g";
+}
+
+.category-filter {
+    grid-area: a;
+}
+.minimum-filter {
+    grid-area: b;
+}
+.maximum-filter {
+    grid-area: c;
+}
+.month-filter {
+    grid-area: d;
+}
