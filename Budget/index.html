@@ -14,7 +14,7 @@
     <main id="app">
       <h1>My expenses</h1>
       <!-- ADD EXPENSE -->
-      <form @submit.prevent="addExpense();">
+      <form @submit.prevent="addExpense();" id="create-expense">
         <label>Enter expense: <input type="text" v-model="expense" id="input-name-field" required></label>
         <label>Enter amount: <input type="number" v-model="amount" id="input-amount-field" required></label>
         <label>Enter date: <input type="date" v-model="date" id="input-date-field" required></label>
