@@ -55,6 +55,11 @@ const app = createApp({
     },
     methods: {
         addExpense() {
+            // Tillagt sent 14 mars, Anna testar
+            window.localStorage.setItem('expenses', JSON.stringify(this.expenses));
+            this.expenses = window.localStorage.getItem('expenses');
+            this.expenses = JSON.parse(this.expenses);
+
             let newItem = {
                 expense: this.expense,
                 amount: this.amount,
@@ -64,10 +69,16 @@ const app = createApp({
             };
             this.expenses.push(newItem);
             this.setMaxAmount();
+
+            // Tillagt sent 14 mars, Anna testar
+            window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
         deleteExpense(index: number) {
             this.expenses.splice(index, 1);
             this.setMaximumSliderValue();
+            
+            // Tillagt sent 14 mars, Anna testar
+            window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
         filterExpenses() {
             this.setMaximumSliderValue();
