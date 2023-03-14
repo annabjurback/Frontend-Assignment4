@@ -75,11 +75,11 @@
           </label>
           <label class="minimum-filter">
             Minimum cost: {{minimumAmountSelect}} kr
-            <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="minimumAmountSelect" @change="setMaximumSliderValue">
+            <input type="range" name="filter" id="minimumSlider" min="0" :max="maxAmountForSliders" v-model="minimumAmountSelect" @change="setMaximumSliderValue">
           </label>
           <label class="maximum-filter">
             Maximum cost: {{maximumAmountSelect}} kr
-            <input type="range" name="filter" min="0" :max="maxAmountForSliders" v-model="maximumAmountSelect" @change="setMinimumSliderValue">
+            <input type="range" name="filter" id="maximumSlider" min="0" :max="maxAmountForSliders" v-model="maximumAmountSelect" @change="setMinimumSliderValue">
           </label>
           <label class="month-filter">
             Month:

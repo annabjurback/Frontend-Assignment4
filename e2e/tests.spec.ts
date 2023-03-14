@@ -38,5 +38,11 @@ test ('ensure cost sliders sync', async ({page}) => {
   await page.goto('http://localhost:5174/');
 
   // Get slider values
-  let minSliderValue = await page.locator
+  let minSliderValue = await page.locator('#minimumSlider');
+  let maxSliderValue = await page.locator('#maximumSlider');
+
+  await maxSliderValue.fill("50");
+  await minSliderValue.fill("100");
+
+  await expect(await maxSliderValue.inputValue()).toEqual('100');
 });
