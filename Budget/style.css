@@ -123,6 +123,7 @@ h2 {
     display: flex;
     margin-left: 10px;
     margin-bottom: 5px;
+    font-family: 'Oswald';
 }
 
 .expense-label {
@@ -163,7 +164,7 @@ h2 {
     padding: 5px;
     grid-area: e;
     border: none;
-    background-color: rgb(87, 198, 96);
+    background-color: #E3B04B;
     border-radius: 5px;
     text-align: center;
 }
@@ -176,6 +177,8 @@ h2 {
     "c d"
     "e e";
     align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .category-filter, .minimum-filter, .maximum-filter, .month-filter {
@@ -220,7 +223,7 @@ h2 {
 .misc {
     display:flex;
     align-items: center;
-    margin-top: 5px;
+    margin: 5px;
 }
 
 .reset-filter {
