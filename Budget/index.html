@@ -16,7 +16,7 @@
       <div id="expense-container">
         <h1>MY EXPENSES</h1>
         <!-- ADD EXPENSE -->
-        <form @submit.prevent="addExpense();" id="create-expense">
+        <form @submit.prevent="addExpense()" id="create-expense">
           <label>Enter expense: <input type="text" v-model="expense" id="input-name-field" required></label>
           <label>Enter amount: <input type="number" v-model="amount" id="input-amount-field" required></label>
           <label>Enter date: <input type="date" v-model="date" id="input-date-field" required></label>
@@ -40,12 +40,12 @@
                 <span class="expense-date"> {{expense.date}}</span>
                 
                 <button @click="deleteExpense(index);" class="delete-button">Delete</button>
-                <button @click="expense.edit = !expense.edit" class="edit-button">Edit</button>
+                <button @click="editExpense(index)" class="edit-button">Edit</button>
               </template>
   
               <!-- visible when edit -->
               <template v-if="expense.edit">
-                <form @submit.prevent="expense.edit = !expense.edit" class="edit-form">
+                <form @submit.prevent="editExpense(index)" class="edit-form">
                   <label class="expense-label">Expense: <input type="text" v-model="expense.expense" required></label>
                   <label class="amount-label">Amount: <input type="number" v-model="expense.amount" required></label>
                   <label class="date-label">Date: <input type="date" v-model="expense.date" required></label>
