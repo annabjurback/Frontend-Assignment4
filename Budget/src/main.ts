@@ -65,27 +65,27 @@ const app = createApp({
             this.expenses.push(newItem);
             this.setMaxAmount();
 
-            // Save current expenses to localStorage
-            window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+            // // Save current expenses to localStorage
+            // window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
         deleteExpense(index: number): void {
             this.expenses.splice(index, 1);
             this.setMaximumSliderValue();
 
-            // Save current expenses to localStorage
-            window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+            // // Save current expenses to localStorage
+            // window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
         filterExpenses(): void {
             this.setMaximumSliderValue();
 
-            // Check if expenses exists in localStorage
-            if (window.localStorage.getItem('expenses') === null) {
-                // Save expenses to localStorage
-                window.localStorage.setItem('expenses', JSON.stringify(this.expenses));
-            }
-            // Get expenses from local storage
-            this.expenses = window.localStorage.getItem('expenses');
-            this.expenses = JSON.parse(this.expenses);
+            // // Check if expenses exists in localStorage
+            // if (window.localStorage.getItem('expenses') === null) {
+            //     // Save expenses to localStorage
+            //     window.localStorage.setItem('expenses', JSON.stringify(this.expenses));
+            // }
+            // // Get expenses from local storage
+            // this.expenses = window.localStorage.getItem('expenses');
+            // this.expenses = JSON.parse(this.expenses);
 
             let dummy;
             if (this.filterOptions.category === "all") {
