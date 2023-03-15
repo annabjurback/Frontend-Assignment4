@@ -45,7 +45,7 @@ const app = createApp({
                 month: "",
                 minimumAmount: 0,
                 maximumAmount: 0
-            } as {category: string, month: string, minimumAmount:number, maximumAmount: number},
+            } as { category: string, month: string, minimumAmount: number, maximumAmount: number },
             filterSelect: "all" as string,
             selectedMonth: "" as string,
             minimumAmountSelect: 0 as number,
@@ -54,12 +54,7 @@ const app = createApp({
         }
     },
     methods: {
-        addExpense() {
-            // Tillagt sent 14 mars, Anna testar
-            window.localStorage.setItem('expenses', JSON.stringify(this.expenses));
-            this.expenses = window.localStorage.getItem('expenses');
-            this.expenses = JSON.parse(this.expenses);
-
+        addExpense(): void {
             let newItem = {
                 expense: this.expense,
                 amount: this.amount,
@@ -70,18 +65,27 @@ const app = createApp({
             this.expenses.push(newItem);
             this.setMaxAmount();
 
-            // Tillagt sent 14 mars, Anna testar
+            // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
-        deleteExpense(index: number) {
+        deleteExpense(index: number): void {
             this.expenses.splice(index, 1);
             this.setMaximumSliderValue();
-            
-            // Tillagt sent 14 mars, Anna testar
+
+            // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
-        filterExpenses() {
+        filterExpenses(): void {
             this.setMaximumSliderValue();
+
+            // Check if expenses exists in localStorage
+            if (window.localStorage.getItem('expenses') === null) {
+                // Save expenses to localStorage
+                window.localStorage.setItem('expenses', JSON.stringify(this.expenses));
+            }
+            // Get expenses from local storage
+            this.expenses = window.localStorage.getItem('expenses');
+            this.expenses = JSON.parse(this.expenses);
 
             let dummy;
             if (this.filterOptions.category === "all") {
@@ -92,35 +96,33 @@ const app = createApp({
             }
 
             // Only applies cost filter if a maximum cost is selected (i.e it is not at 0)
-            if (this.filterOptions.maximumAmount !== 0)
-            {
-                dummy = dummy.filter((ex: {amount: number}) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
+            if (this.filterOptions.maximumAmount !== 0) {
+                dummy = dummy.filter((ex: { amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
             }
-            
+
             // If month is not an empty string. Apply month filter.
-            if(this.filterOptions !== "") {
-                dummy = dummy.filter((ex: { date: string}) => ex.date.includes(this.filterOptions.month));
+            if (this.filterOptions !== "") {
+                dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
             }
             return dummy;
         },
         // Sets the highest entered amount for an expense (used for cost filter sliders)
-        setMaxAmount() {
+        setMaxAmount(): void {
             // ChatGPT helped with this one
             this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
                 return currentExpense.amount > max ? currentExpense.amount : max;
-            }, 0); 
+            }, 0);
         },
         // The two methods below keep track of the selected values in the minimum and maximum amount sliders, so that the selected minimum amount cannot exeed selected maximum amount, and vice versa
-        setMinimumSliderValue() {
+        setMinimumSliderValue(): void {
             if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
                 this.minimumAmountSelect = this.maximumAmountSelect;
             }
         },
-        setMaximumSliderValue() {
+        setMaximumSliderValue(): void {
             this.setMaxAmount();
             // If zero is selected, assume the full range
-            if(this.maximumAmountSelect === 0)
-            {
+            if (this.maximumAmountSelect === 0) {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
             }
             // If selected minimum amount is larger than selected maximum amount, set max to min value 
@@ -128,18 +130,17 @@ const app = createApp({
                 this.maximumAmountSelect = this.minimumAmountSelect;
             }
             // If current maximum expense is less than selected max, set selected max to current maximum expense 
-            if (parseInt(this.maxAmountForSliders) < parseInt(this.maximumAmountSelect))
-            {
+            if (parseInt(this.maxAmountForSliders) < parseInt(this.maximumAmountSelect)) {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
             }
         },
-        applyFilter() {
+        applyFilter(): void {
             this.filterOptions.category = this.filterSelect;
             this.filterOptions.minimumAmount = this.minimumAmountSelect;
             this.filterOptions.maximumAmount = this.maximumAmountSelect;
             this.filterOptions.month = this.selectedMonth;
         },
-        resetFilter() {
+        resetFilter(): void {
             this.filterOptions.category = "all";
             this.filterOptions.minimumAmount = 0;
             this.filterOptions.maximumAmount = this.maxAmountForSliders;
@@ -151,7 +152,8 @@ const app = createApp({
             this.selectedMonth = "";
             this.filterExpenses();
         },
-        capitalize(string: string): string  {
+        // Function to capitalize first letter of a string
+        capitalize(string: string): string {
             return string[0].toUpperCase() + string.slice(1);
         }
     }
