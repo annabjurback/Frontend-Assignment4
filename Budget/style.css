@@ -10,6 +10,11 @@ html {
     color: #F8F8F8;
 }
 
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
 h1 {
     margin: 10px;
     color: #e3a14b;
@@ -112,7 +117,7 @@ h2 {
     "d d d d"
     "e e e e";
 
-    border: 1px solid gray;
+    border: 1px solid #d1ba95;
     border-radius: 3px;
     margin-bottom: 10px;
     padding: 5px;
@@ -193,10 +198,12 @@ h2 {
 }
 .minimum-filter {
     grid-area: b;
+    width: 100%;
     flex-direction: column;
 }
 .maximum-filter {
     grid-area: d;
+    width: 100%;
     flex-direction: column;
 }
 .month-filter {
@@ -237,4 +244,52 @@ h2 {
 .total-amount {
     width: 50%;
     margin-left: 5px;
+}
+
+/* @media (min-width: 600px) {
+    #expense-container {
+        max-width: 600px;
+    }
+} */
+
+#graph-box {
+    height: 500px;
+    background-color: blue;
+}
+
+/* for phones/tablets in landscape mode */
+@media (orientation: landscape) {
+    #app {
+        width: 90%;
+        flex-direction: row;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    #expense-container {
+        width: 50%;
+        max-width: 500px;
+    }
+    #graph-box {
+        width: 100%;
+        background-color: #e3a14b;
+    }
+}
+
+/* For large screens where we can center stuff more */
+@media (min-width: 900px) {
+    #app {
+        width: 75%;
+        flex-direction: row;
+        margin-top: 50px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    #expense-container {
+        width: 50%;
+        max-width: 500px;
+    }
+    #graph-box {
+        width: 100%;
+        background-color: #404147;
+    }
 }
