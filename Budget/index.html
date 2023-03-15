@@ -38,8 +38,8 @@
               <span class="expense-category"> {{capitalize(expense.category)}}</span> 
               <span class="expense-date"> {{expense.date}}</span>
               
-              <button @click="deleteExpense(index);" class="delete-button">Delete expense</button>
-              <button @click="expense.edit = !expense.edit" class="edit-button">Edit expense</button>
+              <button @click="deleteExpense(index);" class="delete-button">Delete</button>
+              <button @click="expense.edit = !expense.edit" class="edit-button">Edit</button>
             </template>
 
             <!-- visible when edit -->
@@ -85,7 +85,7 @@
             Month:
             <input type="month" v-model="selectedMonth" name="filter">
           </label>
-          <button type="submit">Filter</button>
+          <button type="submit" class="filter-submit">Filter</button>
         </form>
         <button @click="resetFilter">Clear Filters</button>
         <p>max amount: {{setMaxAmount()}}{{maxAmountForSliders}}</p>

@@ -12,7 +12,7 @@ html {
 
 h1 {
     margin: 10px;
-    color: #E3B04B;
+    color: #e3a14b;
     text-shadow: 10px 5px 0px #5a5040;
 }
 #create-expense {
@@ -37,8 +37,7 @@ h1 {
 #create-expense button{
     border: none;
     font-size: 1.2em;
-    color: #F8F8F8;
-    text-shadow: 0px 0px 2px black;
+    color: #2f3035;
     background-color: #E3B04B;
     padding: 5px;
     border-radius: 5px;
@@ -85,7 +84,7 @@ h2 {
     border: none;
     font-family: 'Oswald';
     font-size: 1em;
-    color: #F8F8F8;
+    color: #2f3035;
     text-shadow: 0px 0px 1px black;
     background-color: #d1ba95;
     border-radius: 5px;
@@ -98,7 +97,7 @@ h2 {
     border: none;
     font-family: 'Oswald';
     font-size: 1em;
-    color: #F8F8F8;
+    color: #2f3035;
     text-shadow: 0px 0px 1px black;
     background-color: #E3B04B;
     border-radius: 5px;
@@ -173,20 +172,47 @@ h2 {
     display: grid;
 
     grid-template:
-    "a b c"
-    "d e f"
-    "g g g";
+    "a b"
+    "c d"
+    "g g";
+    align-items: center;
 }
 
+.category-filter, .minimum-filter, .maximum-filter, .month-filter {
+    display: flex;
+    font-family: 'Oswald';
+}
 .category-filter {
     grid-area: a;
 }
+.category-filter select {
+    width: 50%;
+    margin-left: auto;
+    margin-right: 5px;
+}
 .minimum-filter {
     grid-area: b;
+    flex-direction: column;
 }
 .maximum-filter {
-    grid-area: c;
+    grid-area: d;
+    flex-direction: column;
 }
 .month-filter {
-    grid-area: d;
+    grid-area: c;
+}
+.month-filter input{
+    width: 50%;
+    margin-left: auto;
+    margin-right: 5px;
+}
+.filter-submit {
+    grid-area: g;
+    border: none;
+    padding: 5px;
+    font-size: 1.4em;
+    font-family: 'Oswald';
+    border-radius: 5px;
+    color: #2f3035;
+    background-color: #E3B04B;
 }
