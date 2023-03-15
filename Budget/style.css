@@ -85,7 +85,6 @@ h2 {
     font-family: 'Oswald';
     font-size: 1em;
     color: #2f3035;
-    text-shadow: 0px 0px 1px black;
     background-color: #d1ba95;
     border-radius: 5px;
     padding: 5px 0px;
@@ -98,7 +97,6 @@ h2 {
     font-family: 'Oswald';
     font-size: 1em;
     color: #2f3035;
-    text-shadow: 0px 0px 1px black;
     background-color: #E3B04B;
     border-radius: 5px;
     padding: 5px 0px;
@@ -231,6 +229,7 @@ h2 {
     width: 50%;
     border-radius: 5px;
     background-color: #d1ba95;
+    color: #2f3035;
     font-family: 'Oswald';
     padding: 5px;
 }
