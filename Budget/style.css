@@ -23,7 +23,7 @@ h1 {
 
 #create-expense > label {
     display: flex;
-    font-size: 1.2em;
+    font-size: 1.4em;
     margin-bottom: 5px;
     width: 100%;
     font-family: 'Oswald';
@@ -174,7 +174,7 @@ h2 {
     grid-template:
     "a b"
     "c d"
-    "g g";
+    "e e";
     align-items: center;
 }
 
@@ -207,12 +207,32 @@ h2 {
     margin-right: 5px;
 }
 .filter-submit {
-    grid-area: g;
+    grid-area: e;
     border: none;
     padding: 5px;
-    font-size: 1.4em;
+    margin-top: 5px;
+    font-size: 1.2em;
     font-family: 'Oswald';
     border-radius: 5px;
     color: #2f3035;
     background-color: #E3B04B;
+}
+.misc {
+    display:flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.reset-filter {
+    border: none;
+    width: 50%;
+    border-radius: 5px;
+    background-color: #d1ba95;
+    font-family: 'Oswald';
+    padding: 5px;
+}
+
+.total-amount {
+    width: 50%;
+    margin-left: 5px;
 }
