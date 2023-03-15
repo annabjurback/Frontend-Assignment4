@@ -19,27 +19,29 @@ const app = createApp({
             amount: "",
             category: "" as string,
             date: new Date().toISOString().substring(0, 10) as string,
-            expenses: [{
-                expense: "Cat",
-                amount: 10,
-                category: "household",
-                date: new Date().toISOString().substring(0, 10),
-                edit: false
-            },
-            {
-                expense: "Dog",
-                amount: 123,
-                category: "entertainment",
-                date: new Date().toISOString().substring(0, 10),
-                edit: false
-            },
-            {
-                expense: "Dog2",
-                amount: 124,
-                category: "entertainment",
-                date: new Date().toISOString().substring(0, 10),
-                edit: false
-            } as { expense: string, amount: number, category: string, edit: boolean, date: string }],
+            expenses: [
+            //     {
+            //         expense: "Cat",
+            //         amount: 10,
+            //         category: "household",
+            //         date: new Date().toISOString().substring(0, 10),
+            //         edit: false
+            //     },
+            //     {
+            //         expense: "Dog",
+            //         amount: 123,
+            //         category: "entertainment",
+            //         date: new Date().toISOString().substring(0, 10),
+            //         edit: false
+            //     },
+            //     {
+            //         expense: "Dog2",
+            //         amount: 124,
+            //         category: "entertainment",
+            //         date: new Date().toISOString().substring(0, 10),
+            //         edit: false
+            // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
+        ],
             filterOptions: {
                 category: "all",
                 month: "",
@@ -56,11 +58,11 @@ const app = createApp({
     methods: {
         addExpense(): void {
             let newItem = {
-                expense: this.expense,
-                amount: this.amount,
-                category: this.category,
-                date: this.date,
-                edit: false
+                expense: this.expense as string,
+                amount: this.amount as number,
+                category: this.category as string,
+                date: this.date as string,
+                edit: false as boolean
             };
             this.expenses.push(newItem);
             this.setMaxAmount();
@@ -75,21 +77,25 @@ const app = createApp({
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
-        editExpense(index: number): void{
+        editExpense(index: number): void {
             this.expenses[index].edit = !this.expenses[index].edit;
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
-        updateExpenses() {
-            // // Check if expenses exists in localStorage
-                // Save expenses to localStorage
-                // window.localStorage.setItem('expenses', JSON.stringify(this.expenses));
-            // // Get expenses from local storage
-            this.expenses = window.localStorage.getItem('expenses');
-            this.expenses = JSON.parse(this.expenses);
+        getExpensesFromStorage() {
+            // Get expenses from local storage
+            if (window.localStorage.getItem('expenses') !== null) {
+                this.expenses = window.localStorage.getItem('expenses');
+                this.expenses = JSON.parse(this.expenses);
+            }
+            else {
+                window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+                this.expenses = window.localStorage.getItem('expenses');
+                this.expenses = JSON.parse(this.expenses);
+            }
         },
         filterExpenses(): any {
             this.setMaximumSliderValue();
-            this.updateExpenses();
+            this.getExpensesFromStorage();
 
             let dummy;
             if (this.filterOptions.category === "all") {
