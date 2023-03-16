@@ -139,7 +139,7 @@ const app = createApp({
             this.minimumAmountSelect = 0;
             this.maximumAmountSelect = this.maxAmountForSliders;
             this.selectedMonth = "";
-            this.filterExpenses();
+            this.filterExpenses;
         },
         // Function to capitalize first letter of a string
         capitalize(string: string): string {
