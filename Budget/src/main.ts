@@ -94,29 +94,7 @@ const app = createApp({
                 this.expenses = JSON.parse(this.expenses);
             }
         },
-        filterExpenses(): any {
-            //this.setMaximumSliderValue();
-            //this.getExpensesFromStorage();
 
-            let dummy;
-            if (this.filterOptions.category === "all") {
-                dummy = this.expenses.slice();
-            }
-            else {
-                dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
-            }
-
-            // Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
-            if (this.filterOptions.maximumAmount !== 0) {
-                dummy = dummy.filter((ex: { amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
-            }
-
-            // If month is not an empty string. Apply month filter.
-            if (this.filterOptions.month !== "") {
-                dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
-            }
-            return dummy;
-        },
         // Sets the highest entered amount for an expense (used for cost filter sliders)
         setMaxAmount(): void {
             // ChatGPT helped with this one
@@ -166,6 +144,31 @@ const app = createApp({
         // Function to capitalize first letter of a string
         capitalize(string: string): string {
             return string[0].toUpperCase() + string.slice(1);
+        }
+    },
+    computed: {
+        filterExpenses(): any {
+            this.setMaximumSliderValue();
+            this.getExpensesFromStorage();
+
+            let dummy;
+            if (this.filterOptions.category === "all") {
+                dummy = this.expenses.slice();
+            }
+            else {
+                dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
+            }
+
+            //Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
+            if (this.filterOptions.maximumAmount !== 0) {
+                dummy = dummy.filter((ex: { amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
+            }
+
+            //If month is not an empty string. Apply month filter.
+            if (this.filterOptions.month !== "") {
+                dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
+            }
+            return dummy;
         }
     }
 }).mount('#app')
