@@ -3,6 +3,7 @@
 
   <head>
     <meta charset="UTF-8">
+    <!-- if we want to use an icon, put the icon in the Public folder -->
     <!-- <link rel="icon" href="/favicon.ico"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Limelight" rel="stylesheet" type="text/css" media="all" />
@@ -16,12 +17,12 @@
       <div id="expense-container">
         <h1>MY EXPENSES</h1>
         <!-- ADD EXPENSE -->
-        <form @submit.prevent="addExpense()" id="create-expense">
-          <label>Enter expense: <input type="text" v-model="newItem.expense" id="input-name-field" required></label>
-          <label>Enter amount: <input type="number" v-model="newItem.amount" id="input-amount-field" required></label>
-          <label>Enter date: <input type="date" v-model="newItem.date" id="input-date-field" required></label>
+        <form @submit.prevent="addExpense" id="create-expense">
+          <label>Enter expense: <input type="text" v-model.lazy="newItem.expense" id="input-name-field" required></label>
+          <label>Enter amount: <input type="number" v-model.lazy="newItem.amount" id="input-amount-field" required></label>
+          <label>Enter date: <input type="date" v-model.lazy="newItem.date" id="input-date-field" required></label>
           <label>Select category:
-            <select v-model="newItem.category" id='input-category-select' required>
+            <select v-model.lazy="newItem.category" id='input-category-select' required>
               <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
             </select>
           </label>
@@ -46,8 +47,8 @@
               <!-- visible when edit -->
               <template v-if="expense.edit">
                 <form @submit.prevent="editExpense(index)" class="edit-form">
-                  <label class="expense-label">Expense: <input type="text" v-model="expense.expense" required></label>
-                  <label class="amount-label">Amount: <input type="number" v-model="expense.amount" required></label>
+                  <label class="expense-label">Expense: <input type="text" v-model.lazy="expense.expense" required></label>
+                  <label class="amount-label">Amount: <input type="number" v-model.lazy="expense.amount" required></label>
                   <label class="date-label">Date: <input type="date" v-model="expense.date" required></label>
                   <label class="category-label">Category:
                     <select v-model="expense.category">

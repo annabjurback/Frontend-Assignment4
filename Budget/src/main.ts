@@ -4,6 +4,14 @@ import { createApp } from 'vue';
 
 // import './assets/main.css'
 
+interface Expense {
+    expense: string;
+    amount: number;
+    category: string;
+    date: string;
+    edit: boolean;
+}
+ 
 const app = createApp({
     data() {
         return {
@@ -24,7 +32,7 @@ const app = createApp({
                 category: "" as string,
                 date: new Date().toISOString().substring(0, 10) as string,
                 edit: false as boolean
-            },
+            } as Expense,
             //date: new Date().toISOString().substring(0, 10) as string,
             expenses: [
             //     {
@@ -82,8 +90,12 @@ const app = createApp({
             this.expenses[index].edit = !this.expenses[index].edit;
 
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+            //nya
+            this.setMaximumSliderValue();
+            this.setMinimumSliderValue();
+
         },
-        getExpensesFromStorage() {
+        getExpensesFromStorage(): void {
             // Get expenses from local storage
             if (window.localStorage.getItem('expenses') !== null) {
                 this.expenses = window.localStorage.getItem('expenses');
@@ -95,8 +107,6 @@ const app = createApp({
                 this.expenses = JSON.parse(this.expenses);
             }
         },
-
-        // Sets the highest entered amount for an expense (used for cost filter sliders)
 
         // The two methods below keep track of the selected values in the minimum and maximum amount sliders, so that the selected minimum amount cannot exeed selected maximum amount, and vice versa
         setMinimumSliderValue(): void {
@@ -143,8 +153,8 @@ const app = createApp({
         }
     },
     computed: {
-        filterExpenses(): any {
-            this.setMaximumSliderValue();
+        filterExpenses(): Expense {
+            // this.setMaximumSliderValue();
             this.getExpensesFromStorage();
 
             let dummy;
@@ -166,6 +176,7 @@ const app = createApp({
             }
             return dummy;
         },
+        // Sets the highest entered amount for an expense (used for cost filter sliders)
         setMaxAmount(): void {
             // ChatGPT helped with this one
             this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
