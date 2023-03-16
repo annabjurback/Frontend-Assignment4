@@ -15,9 +15,9 @@ const app = createApp({
                 "Clothing",
                 "Miscellaneous"
             ],
-            expense: "" as string,
-            amount: "",
-            category: "" as string,
+            // expense: "" as string,
+            // amount: "",
+            // category: "" as string,
             newItem: {
                 expense: "" as string,
                 amount: 0 as number,
@@ -25,7 +25,7 @@ const app = createApp({
                 date: new Date().toISOString().substring(0, 10) as string,
                 edit: false as boolean
             },
-            date: new Date().toISOString().substring(0, 10) as string,
+            //date: new Date().toISOString().substring(0, 10) as string,
             expenses: [
             //     {
             //         expense: "Cat",
@@ -66,7 +66,7 @@ const app = createApp({
         addExpense(): void {
 
             this.expenses.push(this.newItem);
-            this.setMaxAmount();
+            this.setMaxAmount;
 
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
@@ -80,6 +80,7 @@ const app = createApp({
         },
         editExpense(index: number): void {
             this.expenses[index].edit = !this.expenses[index].edit;
+
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
         getExpensesFromStorage() {
@@ -96,12 +97,7 @@ const app = createApp({
         },
 
         // Sets the highest entered amount for an expense (used for cost filter sliders)
-        setMaxAmount(): void {
-            // ChatGPT helped with this one
-            this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
-                return currentExpense.amount > max ? currentExpense.amount : max;
-            }, 0);
-        },
+
         // The two methods below keep track of the selected values in the minimum and maximum amount sliders, so that the selected minimum amount cannot exeed selected maximum amount, and vice versa
         setMinimumSliderValue(): void {
             if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
@@ -109,7 +105,7 @@ const app = createApp({
             }
         },
         setMaximumSliderValue(): void {
-            this.setMaxAmount();
+            this.setMaxAmount;
             // If zero is selected, assume the full range
             if (this.maximumAmountSelect === 0) {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
@@ -169,6 +165,12 @@ const app = createApp({
                 dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
             }
             return dummy;
+        },
+        setMaxAmount(): void {
+            // ChatGPT helped with this one
+            this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
+                return currentExpense.amount > max ? currentExpense.amount : max;
+            }, 0);
         }
     }
 }).mount('#app')
