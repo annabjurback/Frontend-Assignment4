@@ -20,6 +20,10 @@ h1 {
     color: #e3a14b;
     text-shadow: 10px 5px 0px #5a5040;
 }
+
+ul {
+    list-style: none;
+}
 #create-expense {
     display: flex;
     flex-direction: column;

@@ -18,6 +18,13 @@ const app = createApp({
             expense: "" as string,
             amount: "",
             category: "" as string,
+            newItem: {
+                expense: "" as string,
+                amount: 0 as number,
+                category: "" as string,
+                date: new Date().toISOString().substring(0, 10) as string,
+                edit: false as boolean
+            },
             date: new Date().toISOString().substring(0, 10) as string,
             expenses: [
             //     {
@@ -57,14 +64,8 @@ const app = createApp({
     },
     methods: {
         addExpense(): void {
-            let newItem = {
-                expense: this.expense as string,
-                amount: this.amount as number,
-                category: this.category as string,
-                date: this.date as string,
-                edit: false as boolean
-            };
-            this.expenses.push(newItem);
+
+            this.expenses.push(this.newItem);
             this.setMaxAmount();
 
             // Save current expenses to localStorage
@@ -94,8 +95,8 @@ const app = createApp({
             }
         },
         filterExpenses(): any {
-            this.setMaximumSliderValue();
-            this.getExpensesFromStorage();
+            //this.setMaximumSliderValue();
+            //this.getExpensesFromStorage();
 
             let dummy;
             if (this.filterOptions.category === "all") {
@@ -111,7 +112,7 @@ const app = createApp({
             }
 
             // If month is not an empty string. Apply month filter.
-            if (this.filterOptions !== "") {
+            if (this.filterOptions.month !== "") {
                 dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
             }
             return dummy;

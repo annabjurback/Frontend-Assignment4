@@ -17,11 +17,11 @@
         <h1>MY EXPENSES</h1>
         <!-- ADD EXPENSE -->
         <form @submit.prevent="addExpense()" id="create-expense">
-          <label>Enter expense: <input type="text" v-model="expense" id="input-name-field" required></label>
-          <label>Enter amount: <input type="number" v-model="amount" id="input-amount-field" required></label>
-          <label>Enter date: <input type="date" v-model="date" id="input-date-field" required></label>
+          <label>Enter expense: <input type="text" v-model="newItem.expense" id="input-name-field" required></label>
+          <label>Enter amount: <input type="number" v-model="newItem.amount" id="input-amount-field" required></label>
+          <label>Enter date: <input type="date" v-model="newItem.date" id="input-date-field" required></label>
           <label>Select category:
-            <select v-model="category" id='input-category-select' required>
+            <select v-model="newItem.category" id='input-category-select' required>
               <option v-for="type in expenseTypes" :value="type.toLowerCase()">{{type}}</option>
             </select>
           </label>
@@ -32,7 +32,7 @@
           <h2>History</h2>
           <ul>
             <!-- EXPENSE LIST -->
-            <li v-for="(expense, index) in filterExpenses()" :class="{ expense: !expense.edit }">
+            <li v-for="(expense, index) in filterExpenses" :class="{ expense: !expense.edit }">
               <template v-if="!expense.edit" >
                 <span class="expense-name">{{capitalize(expense.expense)}}</span> 
                 <span class="expense-amount">{{expense.amount}} kr</span>
@@ -88,10 +88,10 @@
             </label>
             <button type="submit" class="filter-submit">Filter</button>
           </form>
-          <div class="misc">
+          <!-- <div class="misc">
             <p class="total-amount">Max amount: {{setMaxAmount()}}{{maxAmountForSliders}}</p>
             <button @click="resetFilter" class="reset-filter">Clear</button>
-          </div>
+          </div> -->
         </footer>
       </div>
       <div id="graph-box">
