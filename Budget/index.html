@@ -49,9 +49,9 @@
                 <form @submit.prevent="editExpense(index)" class="edit-form">
                   <label class="expense-label">Expense: <input type="text" v-model.lazy="expense.expense" required></label>
                   <label class="amount-label">Amount: <input type="number" v-model.lazy="expense.amount" required></label>
-                  <label class="date-label">Date: <input type="date" v-model="expense.date" required></label>
+                  <label class="date-label">Date: <input type="date" v-model.lazy="expense.date" required></label>
                   <label class="category-label">Category:
-                    <select v-model="expense.category">
+                    <select v-model.lazy="expense.category">
                       <option v-for="type in expenseTypes" :value="type.toLowerCase()">
                         {{type}}
                       </option>
