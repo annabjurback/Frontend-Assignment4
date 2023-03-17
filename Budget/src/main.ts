@@ -11,7 +11,7 @@ interface Expense {
     date: string;
     edit: boolean;
 }
- 
+
 const app = createApp({
     data() {
         return {
@@ -35,28 +35,37 @@ const app = createApp({
             } as Expense,
             //date: new Date().toISOString().substring(0, 10) as string,
             expenses: [
-            //     {
-            //         expense: "Cat",
-            //         amount: 10,
-            //         category: "household",
-            //         date: new Date().toISOString().substring(0, 10),
-            //         edit: false
-            //     },
-            //     {
-            //         expense: "Dog",
-            //         amount: 123,
-            //         category: "entertainment",
-            //         date: new Date().toISOString().substring(0, 10),
-            //         edit: false
-            //     },
-            //     {
-            //         expense: "Dog2",
-            //         amount: 124,
-            //         category: "entertainment",
-            //         date: new Date().toISOString().substring(0, 10),
-            //         edit: false
-            // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
-        ],
+                //     {
+                //         expense: "Cat",
+                //         amount: 10,
+                //         category: "household",
+                //         date: new Date().toISOString().substring(0, 10),
+                //         edit: false
+                //     },
+                //     {
+                //         expense: "Dog",
+                //         amount: 123,
+                //         category: "entertainment",
+                //         date: new Date().toISOString().substring(0, 10),
+                //         edit: false
+                //     },
+                //     {
+                //         expense: "Dog2",
+                //         amount: 124,
+                //         category: "entertainment",
+                //         date: new Date().toISOString().substring(0, 10),
+                //         edit: false
+                // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
+            ],
+            // tillagd av Anna, osäker på om det kommer behövas
+            expensesForSvg: {
+                household: 0 as number,
+                travel: 0 as number,
+                food: 0 as number,
+                entertainment: 0 as number,
+                clothing: 0 as number,
+                miscellaneous: 0 as number
+            },
             filterOptions: {
                 category: "all",
                 month: "",
@@ -66,8 +75,9 @@ const app = createApp({
             filterSelect: "all" as string,
             selectedMonth: "" as string,
             minimumAmountSelect: 0 as number,
-            maximumAmountSelect: 0 as number,
-            maxAmountForSliders: 0 as number,
+            // Anna ändrat för att inte behöva klicka en massa:
+            maximumAmountSelect: 5000 as number,
+            maxAmountForSliders: 5000 as number,
         }
     },
     methods: {
@@ -107,7 +117,6 @@ const app = createApp({
                 this.expenses = JSON.parse(this.expenses);
             }
         },
-
         // The two methods below keep track of the selected values in the minimum and maximum amount sliders, so that the selected minimum amount cannot exeed selected maximum amount, and vice versa
         setMinimumSliderValue(): void {
             if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
@@ -150,6 +159,84 @@ const app = createApp({
         // Function to capitalize first letter of a string
         capitalize(string: string): string {
             return string[0].toUpperCase() + string.slice(1);
+        },
+        drawSVG() {
+            let w = 600;
+            let h = 400;
+            let r = h / 4;
+            const svg = this.createSVG(w, h);
+
+            const background = this.createSvgRect(0, 0, w, h);
+            background.style.fill = '#cacaca';
+            svg.append(background);
+
+            // const pie = this.createSvgCircle(w/2, h/2, r);
+            // pie.style.fill = 'blue';
+            // svg.append(pie);
+
+            const xc = w / 2;
+            const yc = h / 2;
+            let x0 = xc + r;
+            let y0 = yc;
+            let angle = 180 * (Math.PI / 180);
+            let x1 = xc + r * Math.cos((angle));
+            let y1 = h - (yc + r * Math.sin((angle)));
+            // Arc flag: 0/1 small arc/large arc, 0 if angle > pi, otherwise 1
+            let arcFlag = 0;
+
+            this.calcTotalSumPerCategory();
+
+            const firstPath = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, 'black');
+            svg.append(firstPath);
+
+        },
+        createSVG(w: number, h: number) {
+            const svg = this.createSvgElement('svg');
+            svg.setAttribute('width', w);
+            svg.setAttribute('height', h);
+            let graphBox: HTMLElement | null = document.getElementById('graph-box');
+            // not the best-looking solution:
+            // we know that graphBox is not null, but TS doesn't..
+            if (graphBox !== null) {
+                // first: clear all the "old" elements
+                while (graphBox.firstElementChild) {
+                    graphBox.firstElementChild.remove();
+                }
+                graphBox.append(svg);
+            }
+            return svg;
+        },
+        createSvgElement(tagType: string) {
+            return document.createElementNS('http://www.w3.org/2000/svg', tagType);
+        },
+        createSvgRect(x: number, y: number, w: number, h: number) {
+            const rectangle = this.createSvgElement('rect');
+            rectangle.setAttribute('width', w);
+            rectangle.setAttribute('height', h);
+            rectangle.setAttribute('x', x);
+            rectangle.setAttribute('y', y);
+            return rectangle;
+        },
+        // createSvgCircle(cx: number, cy: number, r: number) {
+        //     const circle = this.createSvgElement('circle');
+        //     circle.setAttribute('cx', cx);
+        //     circle.setAttribute('cy', cy);
+        //     circle.setAttribute('r', r);
+        //     return circle;
+        // },
+        createSvgPath(r: number, x0: number, y0: number, x1: number, y1: number, cx: number, yc: number, arcFlag: number, color: string) {
+            const path = this.createSvgElement('path');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', color);
+            path.setAttribute('stroke-width', '15%');
+            let buildPath = 'M ' + x0 + ',' + y0 +
+                ' A ' + r + ' ' + r + ' 0 ' + arcFlag + ' 0 ' + x1 + ',' + y1;
+            path.setAttribute('d', buildPath);
+            path.setAttribute('transform', 'rotate(-90, ' + cx + ',' + yc + ')');
+            return path;
+        },
+        // A list of the sum of each category is needed here
+        calcTotalSumPerCategory() {
         }
     },
     computed: {
