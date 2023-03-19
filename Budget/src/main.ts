@@ -57,15 +57,6 @@ const app = createApp({
                 //         edit: false
                 // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
             ],
-            // tillagd av Anna, osäker på om det kommer behövas
-            expensesForSvg: {
-                household: 0 as number,
-                travel: 0 as number,
-                food: 0 as number,
-                entertainment: 0 as number,
-                clothing: 0 as number,
-                miscellaneous: 0 as number
-            },
             filterOptions: {
                 category: "all",
                 month: "",
@@ -75,9 +66,18 @@ const app = createApp({
             filterSelect: "all" as string,
             selectedMonth: "" as string,
             minimumAmountSelect: 0 as number,
-            // Anna ändrat för att inte behöva klicka en massa:
+            // Anna ändrat från 0 för att inte behöva klicka en massa:
             maximumAmountSelect: 5000 as number,
             maxAmountForSliders: 5000 as number,
+            // tillagd av Anna, osäker på om det kommer behövas
+            expensesForSvg: {
+                household: 5000 as number,
+                travel: 1000 as number,
+                food: 3500 as number,
+                entertainment: 1500 as number,
+                clothing: 2500 as number,
+                miscellaneous: 3000 as number
+            },
         }
     },
     methods: {
@@ -170,24 +170,36 @@ const app = createApp({
             background.style.fill = '#cacaca';
             svg.append(background);
 
-            // const pie = this.createSvgCircle(w/2, h/2, r);
-            // pie.style.fill = 'blue';
-            // svg.append(pie);
-
+            let amountsForSvgPieChart = [7000, 1000, 3500, 1500, 6500, 3000];
+            let colors = ['red', 'blue', 'yellow', 'green', 'black', 'orange'];
             const xc = w / 2;
             const yc = h / 2;
+            
+            let sum = amountsForSvgPieChart.reduce((a, b) => {
+                return a + b;
+            }, 0);
             let x0 = xc + r;
             let y0 = yc;
-            let angle = 180 * (Math.PI / 180);
-            let x1 = xc + r * Math.cos((angle));
-            let y1 = h - (yc + r * Math.sin((angle)));
+            let amountPercentage: number = 0;
+            let angle: number = amountPercentage * 360 * (Math.PI / 180);
+            let x1: number = xc + r * Math.cos((angle));
+            let y1: number = h - (yc + r * Math.sin((angle)));
             // Arc flag: 0/1 small arc/large arc, 0 if angle > pi, otherwise 1
             let arcFlag = 0;
+            for (let i = 0; i < amountsForSvgPieChart.length; i++) {
+                amountPercentage = amountsForSvgPieChart[i]/sum;
+                angle += amountPercentage * 360 * (Math.PI / 180);
+                x1 = xc + r * Math.cos((angle));
+                y1 = h - (yc + r * Math.sin((angle)));
+                arcFlag = amountPercentage * 360 * (Math.PI / 180) > Math.PI? 1 : 0;
+                let path = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                svg.append(path);
+                x0 = x1;
+                y0 = y1;
+            }
 
-            this.calcTotalSumPerCategory();
+            // this.calcTotalSumPerCategory();
 
-            const firstPath = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, 'black');
-            svg.append(firstPath);
 
         },
         createSVG(w: number, h: number) {
@@ -237,6 +249,7 @@ const app = createApp({
         },
         // A list of the sum of each category is needed here
         calcTotalSumPerCategory() {
+
         }
     },
     computed: {

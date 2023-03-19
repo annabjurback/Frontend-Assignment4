@@ -37,7 +37,7 @@
         There is probably a better solution...?-->
         {{setMaxAmount}}
         <!-- Anna lagt till nedan funktionsanrop för att inte behöva klicka en massa -->
-        <!-- {{applyFilter()}} {{drawSVG()}} -->
+        {{applyFilter()}} {{drawSVG()}}
         <ul>
           <!-- EXPENSE LIST -->
           <li v-for="(expense, index) in filterExpenses" :class="{ expense: !expense.edit }">
