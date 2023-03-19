@@ -10,7 +10,10 @@ interface Expense {
     category: string;
     date: string;
     edit: boolean;
-}
+};
+interface SumPerCategory {
+    [key: string]: number;
+};
 
 const app = createApp({
     data() {
@@ -23,9 +26,6 @@ const app = createApp({
                 "Clothing",
                 "Miscellaneous"
             ],
-            // expense: "" as string,
-            // amount: "",
-            // category: "" as string,
             newItem: {
                 expense: "" as string,
                 amount: 0 as number,
@@ -33,6 +33,9 @@ const app = createApp({
                 date: new Date().toISOString().substring(0, 10) as string,
                 edit: false as boolean
             } as Expense,
+            // expense: "" as string,
+            // amount: "",
+            // category: "" as string,
             //date: new Date().toISOString().substring(0, 10) as string,
             expenses: [
                 //     {
@@ -56,7 +59,7 @@ const app = createApp({
                 //         date: new Date().toISOString().substring(0, 10),
                 //         edit: false
                 // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
-            ],
+            ] as Expense[],
             filterOptions: {
                 category: "all",
                 month: "",
@@ -70,14 +73,14 @@ const app = createApp({
             maximumAmountSelect: 5000 as number,
             maxAmountForSliders: 5000 as number,
             // tillagd av Anna, osäker på om det kommer behövas
-            expensesForSvg: {
-                household: 5000 as number,
-                travel: 1000 as number,
-                food: 3500 as number,
-                entertainment: 1500 as number,
-                clothing: 2500 as number,
-                miscellaneous: 3000 as number
-            },
+            totalSumPerCategory: {
+                household: 0,
+                travel: 0,
+                food: 0,
+                entertainment: 0,
+                clothing: 0,
+                miscellaneous: 0
+            } as SumPerCategory,
         }
     },
     methods: {
@@ -103,7 +106,6 @@ const app = createApp({
             //nya
             this.setMaximumSliderValue();
             this.setMinimumSliderValue();
-
         },
         getExpensesFromStorage(): void {
             // Get expenses from local storage
@@ -143,6 +145,7 @@ const app = createApp({
             this.filterOptions.minimumAmount = this.minimumAmountSelect;
             this.filterOptions.maximumAmount = this.maximumAmountSelect;
             this.filterOptions.month = this.selectedMonth;
+            this.drawSVG();
         },
         resetFilter(): void {
             this.filterOptions.category = "all";
@@ -156,51 +159,70 @@ const app = createApp({
             this.selectedMonth = "";
             this.filterExpenses;
         },
-        // Function to capitalize first letter of a string
+        // Capitalize first letter of a string
         capitalize(string: string): string {
             return string[0].toUpperCase() + string.slice(1);
         },
         drawSVG() {
-            let w = 600;
-            let h = 400;
-            let r = h / 4;
-            const svg = this.createSVG(w, h);
+            let w: number = 600;
+            let h: number = 400;
+            let r: number = h / 4;
+            const svg: HTMLElement = this.createSVG(w, h);
 
-            const background = this.createSvgRect(0, 0, w, h);
-            background.style.fill = '#cacaca';
+            const background: HTMLElement = this.createSvgRect(0, 0, w, h);
+            background.style.fill = '#cccccc';
             svg.append(background);
 
-            let amountsForSvgPieChart = [7000, 1000, 3500, 1500, 6500, 3000];
-            let colors = ['red', 'blue', 'yellow', 'green', 'black', 'orange'];
-            const xc = w / 2;
-            const yc = h / 2;
+            // Parameters for drawing a pie chart. It's a lot, but I think it all needs to be here, since we use a for-loop to append many svg paths to our svg element..? Or could we create a function that returns a list of svg element an then append them one by one
+            // FIXA ATT INGEN PATH OCH LEGEND-ENTRY SKA RITAS UT OM JUST DEN SPECIFIKA KATEGORIN HAR SUMMA NOLL
+            const colors: string[] = ['tomato', '#FCA753', '#fff567','mediumseagreen',  'dodgerblue', 'mediumorchid'];
+            const xc: number = w / 2.5;
+            const yc: number = h / 2;
             
-            let sum = amountsForSvgPieChart.reduce((a, b) => {
-                return a + b;
-            }, 0);
-            let x0 = xc + r;
-            let y0 = yc;
+            let sum: number = 0;
+            for (let sumCat in this.totalSumPerCategory)
+            {
+                sum += this.totalSumPerCategory[sumCat];
+            };
+            let x0: number = xc + r;
+            let y0: number = yc;
             let amountPercentage: number = 0;
-            let angle: number = amountPercentage * 360 * (Math.PI / 180);
-            let x1: number = xc + r * Math.cos((angle));
-            let y1: number = h - (yc + r * Math.sin((angle)));
-            // Arc flag: 0/1 small arc/large arc, 0 if angle > pi, otherwise 1
+            let angle: number = 0;
+            let totalAngle: number = 0;
+            let x1: number = 0;
+            let y1: number = 0;
+            // Arc flag: 0/1 for small/large arc, 0 if angle > pi, otherwise 1
             let arcFlag = 0;
-            for (let i = 0; i < amountsForSvgPieChart.length; i++) {
-                amountPercentage = amountsForSvgPieChart[i]/sum;
-                angle += amountPercentage * 360 * (Math.PI / 180);
-                x1 = xc + r * Math.cos((angle));
-                y1 = h - (yc + r * Math.sin((angle)));
-                arcFlag = amountPercentage * 360 * (Math.PI / 180) > Math.PI? 1 : 0;
-                let path = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+            let theCategories = Object.keys(this.totalSumPerCategory);
+            for (let i = 0; i < theCategories.length; i++) {
+                amountPercentage = this.totalSumPerCategory[theCategories[i]]/sum;
+                angle = amountPercentage * 360 * (Math.PI / 180);
+                arcFlag = angle > Math.PI? 1 : 0;
+                totalAngle += angle;
+                x1 = xc + r * Math.cos((totalAngle));
+                y1 = h - (yc + r * Math.sin((totalAngle)));
+                let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
                 svg.append(path);
                 x0 = x1;
                 y0 = y1;
-            }
+            };
 
-            // this.calcTotalSumPerCategory();
-
-
+            // Parameters for drawing a legend.
+            let xStart: number = w*0.7;
+            let yStart: number = h*0.1;
+            let boxSize: number = 10;
+            let boxSpace: number = h*0.045;
+            let legendBackground: HTMLElement = this.createSvgRect(xStart-5, yStart-5, 150, (boxSpace*5 + boxSize + 10));
+            legendBackground.style.fill = 'white';
+            svg.append(legendBackground);
+            for (let i = 0; i < theCategories.length; i++) {
+                let legendColorBox: HTMLElement = this.createSvgRect(xStart, yStart, boxSize, boxSize);
+                legendColorBox.style.fill = colors[i];
+                svg.append(legendColorBox);
+                let legendEntry: HTMLElement = this.createSvgText(xStart + boxSize + 5, yStart + boxSize, this.capitalize(theCategories[i]));
+                svg.append(legendEntry);
+                yStart += boxSpace;
+            };
         },
         createSVG(w: number, h: number) {
             const svg = this.createSvgElement('svg');
@@ -229,13 +251,6 @@ const app = createApp({
             rectangle.setAttribute('y', y);
             return rectangle;
         },
-        // createSvgCircle(cx: number, cy: number, r: number) {
-        //     const circle = this.createSvgElement('circle');
-        //     circle.setAttribute('cx', cx);
-        //     circle.setAttribute('cy', cy);
-        //     circle.setAttribute('r', r);
-        //     return circle;
-        // },
         createSvgPath(r: number, x0: number, y0: number, x1: number, y1: number, cx: number, yc: number, arcFlag: number, color: string) {
             const path = this.createSvgElement('path');
             path.setAttribute('fill', 'none');
@@ -247,13 +262,28 @@ const app = createApp({
             path.setAttribute('transform', 'rotate(-90, ' + cx + ',' + yc + ')');
             return path;
         },
-        // A list of the sum of each category is needed here
-        calcTotalSumPerCategory() {
-
+        createSvgText(x:number, y: number, text: string) {
+            const entry = this.createSvgElement('text');
+            entry.setAttribute('x', x);
+            entry.setAttribute('y', y);
+            // kan göras i CSS istället:
+            entry.setAttribute('fill', '#2f3035');
+            entry.textContent = text;
+            return entry;
+        },
+        // A list of the sum of each category is needed here, want to call it inside filterExpenses()? (JAKOB HJÄLP)
+        calcTotalSumPerCategory(exp: Expense[])  {
+            // first make a copy, to avoid weird updates(not sure if needed) ? (funkar ändå inte)
+            // let result = Object.assign({}, this.totalSumPerCategory);
+            exp.forEach((exp) => {
+                this.totalSumPerCategory[exp.category] += exp.amount;
+            });
+            // this.totalSumPerCategory = Object.assign({}, result);
         }
     },
     computed: {
-        filterExpenses(): Expense {
+        // Lade till brackets i returtypen. För visst är det en lista av expenses vi skickar tillbaka?
+        filterExpenses(): Expense[] {
             // this.setMaximumSliderValue();
             this.getExpensesFromStorage();
 
@@ -273,6 +303,19 @@ const app = createApp({
             //If month is not an empty string. Apply month filter.
             if (this.filterOptions.month !== "") {
                 dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
+            }
+
+            // // om nedan funktion INTE är bortkommenterad så hamnar vi i filterExpenses när vi ändrar en siffra i edit. Det går inte att edita amount och category när den är kvar. 
+            // // Om den ÄR bortkommenterad hamnar den inte i filterExpenses, men då funkar inte cirkeldiagrammet.... VARFÖR????? 
+            // JAKOB HJÄLP
+            // let deepCopy: Expense[] = [];
+            // for (let d of dummy)
+            // {
+                //     deepCopy[d.category] = d.expense;
+                // };
+            // // If all categories selected, calculate sum per category for pie chart
+            if (this.filterOptions.category === "all") {
+                this.calcTotalSumPerCategory(dummy);
             }
             return dummy;
         },
