@@ -71,10 +71,8 @@ const app = createApp({
             filterSelect: "all" as string,
             selectedMonth: "" as string,
             minimumAmountSelect: 0 as number,
-            // Anna ändrat från 0 för att inte behöva klicka en massa:
-            maximumAmountSelect: 5000 as number,
-            maxAmountForSliders: 5000 as number,
-            // tillagd av Anna, osäker på om det kommer behövas
+            maximumAmountSelect: 0 as number,
+            maxAmountForSliders: 0 as number,
             totalSumPerCategory: {
                 'household': 0,
                 'travel': 0,
@@ -83,21 +81,17 @@ const app = createApp({
                 'clothing': 0,
                 'miscellaneous': 0
             } as SumPerCategory,
-            listItemId: 0,
         }
     },
     methods: {
-        // setListItemID() {
-        //     return this.listItemID ++;
-        // },
-        addExpense(): void {
+          addExpense(): void {
             if(this.expenses.length === 0)
             {
                 this.newItem.id = 1;
             }
             else {
                 let lastItemID = this.expenses.at(-1).id;
-                this.newItem.id = lastItemID ++;
+                this.newItem.id = ++lastItemID;
             }
             this.expenses.push(this.newItem);
             this.setMaxAmount;
