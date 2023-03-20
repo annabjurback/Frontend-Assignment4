@@ -152,7 +152,6 @@ const app = createApp({
             this.filterOptions.minimumAmount = this.minimumAmountSelect;
             this.filterOptions.maximumAmount = this.maximumAmountSelect;
             this.filterOptions.month = this.selectedMonth;
-            this.drawSVG();
         },
         resetFilter(): void {
             this.filterOptions.category = "all";
@@ -300,11 +299,18 @@ const app = createApp({
             // // Om den ÄR bortkommenterad hamnar den inte i filterExpenses, men då funkar inte cirkeldiagrammet.... VARFÖR????? 
             // JAKOB HJÄLP
         calcTotalSumPerCategory() {
-
             for (let d of this.filterExpenses) {
                 this.totalSumPerCategory[d.category] += d.amount;
                 console.log(this.totalSumPerCategory[d.category]);
             };
+        },
+        clearTotalSumPerCategory() {
+            this.totalSumPerCategory.household = 0;
+            this.totalSumPerCategory.travel = 0;
+            this.totalSumPerCategory.food = 0;
+            this.totalSumPerCategory.entertainment = 0;
+            this.totalSumPerCategory.clothing = 0;
+            this.totalSumPerCategory.miscellaneous = 0;        
         }
     },
     computed: {

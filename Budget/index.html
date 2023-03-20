@@ -70,7 +70,7 @@
       </div>
       <footer>
         <!-- FILTER -->
-        <form @submit.prevent="applyFilter(), calcTotalSumPerCategory(), drawSVG()" id="filter-form">
+        <form @submit.prevent="applyFilter(), clearTotalSumPerCategory(), calcTotalSumPerCategory(), drawSVG()" id="filter-form">
           <label class="category-filter">
             Category:
             <select v-model="filterSelect">
