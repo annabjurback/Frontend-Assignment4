@@ -269,6 +269,10 @@ footer {
     background-color: blue;
 }
 
+svg text {
+    fill: #404147;
+}
+
 /* for phones/tablets in landscape mode */
 @media (orientation: landscape) {
     #app {

@@ -10,6 +10,7 @@ interface Expense {
     category: string;
     date: string;
     edit: boolean;
+    id: number;
 };
 interface SumPerCategory {
     [key: string]: number;
@@ -27,11 +28,12 @@ const app = createApp({
                 "Miscellaneous"
             ],
             newItem: {
-                expense: "" as string,
-                amount: 0 as number,
-                category: "" as string,
-                date: new Date().toISOString().substring(0, 10) as string,
-                edit: false as boolean
+                expense: "",
+                amount: 0,
+                category: "",
+                date: new Date().toISOString().substring(0, 10),
+                edit: false,
+                id: 0
             } as Expense,
             // expense: "" as string,
             // amount: "",
@@ -74,18 +76,29 @@ const app = createApp({
             maxAmountForSliders: 5000 as number,
             // tillagd av Anna, osäker på om det kommer behövas
             totalSumPerCategory: {
-                household: 0,
-                travel: 0,
-                food: 0,
-                entertainment: 0,
-                clothing: 0,
-                miscellaneous: 0
+                'household': 0,
+                'travel': 0,
+                'food': 0,
+                'entertainment': 0,
+                'clothing': 0,
+                'miscellaneous': 0
             } as SumPerCategory,
+            listItemId: 0,
         }
     },
     methods: {
+        // setListItemID() {
+        //     return this.listItemID ++;
+        // },
         addExpense(): void {
-
+            if(this.expenses.length === 0)
+            {
+                this.newItem.id = 1;
+            }
+            else {
+                let lastItemID = this.expenses.at(-1).id;
+                this.newItem.id = lastItemID ++;
+            }
             this.expenses.push(this.newItem);
             this.setMaxAmount;
 
@@ -164,8 +177,18 @@ const app = createApp({
             return string[0].toUpperCase() + string.slice(1);
         },
         drawSVG() {
-            let w: number = 600;
-            let h: number = 400;
+            let graphBox: HTMLElement | null = document.querySelector('#graph-box');
+            let graphW = 0;
+            let graphH = 0;
+            if(graphBox !== null)
+            {
+                graphW = graphBox.offsetWidth;
+                graphH = graphBox.offsetHeight;
+            }
+            let w = graphW;
+            let h = graphH;
+            // let w: number = 600;
+            // let h: number = 400;
             let r: number = h / 4;
             const svg: HTMLElement = this.createSVG(w, h);
 
@@ -173,17 +196,18 @@ const app = createApp({
             background.style.fill = '#cccccc';
             svg.append(background);
 
-            // Parameters for drawing a pie chart. It's a lot, but I think it all needs to be here, since we use a for-loop to append many svg paths to our svg element..? Or could we create a function that returns a list of svg element an then append them one by one
-            // FIXA ATT INGEN PATH OCH LEGEND-ENTRY SKA RITAS UT OM JUST DEN SPECIFIKA KATEGORIN HAR SUMMA NOLL
-            const colors: string[] = ['tomato', '#FCA753', '#fff567','mediumseagreen',  'dodgerblue', 'mediumorchid'];
+            // Starting parameters for drawing a pie chart. 
+            // It's a lot, but I think it all needs to be here, since we use a for-loop to append many svg paths to our svg element..? Or could we create a function that returns a list of svg element an then append them one by one. Fråga Jakob?
+            // Skulle vilja knyta en färg till en viss kategori, men det får bli om det finns tid :)
+            const colors: string[] = ['tomato', '#FCA753', '#fff567', 'mediumseagreen', 'dodgerblue', 'mediumorchid'];
             const xc: number = w / 2.5;
             const yc: number = h / 2;
-            
-            let sum: number = 0;
-            for (let sumCat in this.totalSumPerCategory)
-            {
-                sum += this.totalSumPerCategory[sumCat];
+
+            let totalSum: number = 0;
+            for (let category in this.totalSumPerCategory) {
+                totalSum += this.totalSumPerCategory[category];
             };
+            let nonZeroCategories = Object.keys(this.totalSumPerCategory).filter(key => this.totalSumPerCategory[key] !== 0);
             let x0: number = xc + r;
             let y0: number = yc;
             let amountPercentage: number = 0;
@@ -193,36 +217,43 @@ const app = createApp({
             let y1: number = 0;
             // Arc flag: 0/1 for small/large arc, 0 if angle > pi, otherwise 1
             let arcFlag = 0;
-            let theCategories = Object.keys(this.totalSumPerCategory);
-            for (let i = 0; i < theCategories.length; i++) {
-                amountPercentage = this.totalSumPerCategory[theCategories[i]]/sum;
-                angle = amountPercentage * 360 * (Math.PI / 180);
-                arcFlag = angle > Math.PI? 1 : 0;
-                totalAngle += angle;
-                x1 = xc + r * Math.cos((totalAngle));
-                y1 = h - (yc + r * Math.sin((totalAngle)));
-                let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
-                svg.append(path);
-                x0 = x1;
-                y0 = y1;
-            };
-
-            // Parameters for drawing a legend.
-            let xStart: number = w*0.7;
-            let yStart: number = h*0.1;
+            // Starting parameters for drawing a legend.
+            let legendXStart: number = w * 0.7;
+            let legendYStart: number = h * 0.1;
             let boxSize: number = 10;
-            let boxSpace: number = h*0.045;
-            let legendBackground: HTMLElement = this.createSvgRect(xStart-5, yStart-5, 150, (boxSpace*5 + boxSize + 10));
+            let boxSpace: number = h * 0.045;
+            // background is 5px beyond the color boxes:
+            let legendBackground: HTMLElement = this.createSvgRect(legendXStart - 5, legendYStart - 5, 150, (boxSpace * (nonZeroCategories.length - 1) + boxSize + 10));
             legendBackground.style.fill = 'white';
             svg.append(legendBackground);
-            for (let i = 0; i < theCategories.length; i++) {
-                let legendColorBox: HTMLElement = this.createSvgRect(xStart, yStart, boxSize, boxSize);
-                legendColorBox.style.fill = colors[i];
-                svg.append(legendColorBox);
-                let legendEntry: HTMLElement = this.createSvgText(xStart + boxSize + 5, yStart + boxSize, this.capitalize(theCategories[i]));
-                svg.append(legendEntry);
-                yStart += boxSpace;
+            for (let i = 0; i < nonZeroCategories.length; i++) {
+                amountPercentage = this.totalSumPerCategory[nonZeroCategories[i]] / totalSum;
+                if (amountPercentage > 0) {
+                    // pie piece
+                    angle = amountPercentage * 360 * (Math.PI / 180);
+                    arcFlag = angle > Math.PI ? 1 : 0;
+                    totalAngle += angle;
+                    x1 = xc + r * Math.cos((totalAngle));
+                    y1 = h - (yc + r * Math.sin((totalAngle)));
+                    let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                    svg.append(path);
+                    // update starting position for next pie piece
+                    x0 = x1;
+                    y0 = y1;
+
+                    // legend color box
+                    let legendColorBox: HTMLElement = this.createSvgRect(legendXStart, legendYStart, boxSize, boxSize);
+                    legendColorBox.style.fill = colors[i];
+                    svg.append(legendColorBox);
+
+                    // legend text
+                    let legendEntry: HTMLElement = this.createSvgText(legendXStart + boxSize + 5, legendYStart + boxSize, this.capitalize(nonZeroCategories[i]));
+                    svg.append(legendEntry);
+                    // update starting position for next legend entry
+                    legendYStart += boxSpace;
+                }
             };
+
         },
         createSVG(w: number, h: number) {
             const svg = this.createSvgElement('svg');
@@ -262,23 +293,24 @@ const app = createApp({
             path.setAttribute('transform', 'rotate(-90, ' + cx + ',' + yc + ')');
             return path;
         },
-        createSvgText(x:number, y: number, text: string) {
+        createSvgText(x: number, y: number, text: string) {
             const entry = this.createSvgElement('text');
             entry.setAttribute('x', x);
             entry.setAttribute('y', y);
-            // kan göras i CSS istället:
-            entry.setAttribute('fill', '#2f3035');
             entry.textContent = text;
             return entry;
         },
         // A list of the sum of each category is needed here, want to call it inside filterExpenses()? (JAKOB HJÄLP)
-        calcTotalSumPerCategory(exp: Expense[])  {
-            // first make a copy, to avoid weird updates(not sure if needed) ? (funkar ändå inte)
-            // let result = Object.assign({}, this.totalSumPerCategory);
-            exp.forEach((exp) => {
-                this.totalSumPerCategory[exp.category] += exp.amount;
-            });
-            // this.totalSumPerCategory = Object.assign({}, result);
+        
+            // // om nedan funktion INTE är bortkommenterad så hamnar vi i filterExpenses när vi ändrar en siffra i edit. Det går inte att edita amount och category när den är kvar. 
+            // // Om den ÄR bortkommenterad hamnar den inte i filterExpenses, men då funkar inte cirkeldiagrammet.... VARFÖR????? 
+            // JAKOB HJÄLP
+        calcTotalSumPerCategory() {
+
+            for (let d of this.filterExpenses) {
+                this.totalSumPerCategory[d.category] += d.amount;
+                console.log(this.totalSumPerCategory[d.category]);
+            };
         }
     },
     computed: {
@@ -293,6 +325,7 @@ const app = createApp({
             }
             else {
                 dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
+
             }
 
             //Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
@@ -305,18 +338,7 @@ const app = createApp({
                 dummy = dummy.filter((ex: { date: string }) => ex.date.includes(this.filterOptions.month));
             }
 
-            // // om nedan funktion INTE är bortkommenterad så hamnar vi i filterExpenses när vi ändrar en siffra i edit. Det går inte att edita amount och category när den är kvar. 
-            // // Om den ÄR bortkommenterad hamnar den inte i filterExpenses, men då funkar inte cirkeldiagrammet.... VARFÖR????? 
-            // JAKOB HJÄLP
-            // let deepCopy: Expense[] = [];
-            // for (let d of dummy)
-            // {
-                //     deepCopy[d.category] = d.expense;
-                // };
-            // // If all categories selected, calculate sum per category for pie chart
-            if (this.filterOptions.category === "all") {
-                this.calcTotalSumPerCategory(dummy);
-            }
+
             return dummy;
         },
         // Sets the highest entered amount for an expense (used for cost filter sliders)
@@ -325,6 +347,26 @@ const app = createApp({
             this.maxAmountForSliders = this.expenses.reduce((max: number, currentExpense: any) => {
                 return currentExpense.amount > max ? currentExpense.amount : max;
             }, 0);
-        }
+        },
+        // totalSumPerCategory: {
+        //     get() {
+        //         return {
+        //             householdSum: this.household,
+        //             travelSum: this.travel,
+        //             foodSum: this.food,
+        //             entertainmentSum: this.entertainment,
+        //             clothingSum: this.clothing,
+        //             miscellaneousSum: this.miscellaneous
+        //         }
+        //     },
+        //     set(value) {
+        //         this.household = value.householdSum,
+        //         this.travel = value.travelSum,
+        //         this.food = value.foodSum,
+        //         this.entertainment = value.entertainmentSum,
+        //         this.clothing = value.clothingSum,
+        //         this.miscellaneous = value.miscellaneousSum
+        //     }
+        // },
     }
 }).mount('#app')

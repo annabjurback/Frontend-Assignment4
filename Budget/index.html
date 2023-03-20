@@ -38,7 +38,7 @@
         {{setMaxAmount}}
         <ul>
           <!-- EXPENSE LIST -->
-          <li v-for="(expense, index) in filterExpenses" :class="{ expense: !expense.edit }">
+          <li v-for="(expense, index) in filterExpenses" :class="{ expense: !expense.edit }" :key="expense.id">
             <template v-if="!expense.edit">
               <span class="expense-name">{{capitalize(expense.expense)}}</span>
               <span class="expense-amount">{{expense.amount}} kr</span>
@@ -70,7 +70,7 @@
       </div>
       <footer>
         <!-- FILTER -->
-        <form @submit.prevent="applyFilter(), drawSVG()" id="filter-form">
+        <form @submit.prevent="applyFilter(), calcTotalSumPerCategory(), drawSVG()" id="filter-form">
           <label class="category-filter">
             Category:
             <select v-model="filterSelect">
