@@ -74,10 +74,13 @@ const app = createApp({
             this.resetFilter();
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+            // Reset input fields
             this.newItem.expense = '';
             this.newItem.amount = 0;
             this.newItem.category = "";
             this.newItem.date = new Date().toISOString().substring(0, 10);
+
+            this.drawSVG();
         },
         deleteExpense(index: number): void {
             this.expenses.splice(index, 1);
@@ -85,11 +88,11 @@ const app = createApp({
 
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+
+            this.drawSVG();
         },
         editExpense(index: number, id: number): void {
-
             let expenseToEdit = this.expenses.find((expense: any) => expense.id === id);
-            //this.expenses[index].edit = !this.expenses[index].edit;
 
             expenseToEdit.edit = !expenseToEdit.edit;
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
@@ -100,6 +103,8 @@ const app = createApp({
             if (!expenseToEdit.edit) {
                 this.resetFilter();
             }
+
+            this.drawSVG();
         },
         getExpensesFromStorage(): void {
             // Get expenses from local storage
@@ -162,6 +167,8 @@ const app = createApp({
             }
         },
         drawSVG() {
+            this.clearTotalSumPerCategory();
+            this.calcTotalSumPerCategory();
             let graphBox: HTMLElement | null = this.$refs.graphBox;
             let graphW = 0;
             let graphH = 0;
