@@ -169,7 +169,7 @@ const app = createApp({
             return string[0].toUpperCase() + string.slice(1);
         },
         drawSVG() {
-            let graphBox: HTMLElement | null = document.querySelector('#graph-box');
+            let graphBox: HTMLElement | null = this.$refs.graphBox;//document.querySelector('#graph-box');
             let graphW = 0;
             let graphH = 0;
             if (graphBox !== null) {
@@ -246,6 +246,32 @@ const app = createApp({
                         // update starting position for next legend entry
                         legendYStart += boxSpace;
                     }
+                    // if only one category exists in the filter, we have already drawn the legend element, but need to draw a path of a full circle:
+                    if (amountPercentage === 1) {
+                        // pie piece fo 359 degrees
+                        angle = 359 * (Math.PI / 180);
+                        arcFlag = angle > Math.PI ? 1 : 0;
+                        totalAngle += angle;
+                        x1 = xc + r * Math.cos((totalAngle));
+                        y1 = h - (yc + r * Math.sin((totalAngle)));
+                        let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                        svg.append(path);
+                        // update starting position for next pie piece, but first back up one degree
+                        angle = (-1) * (Math.PI / 180);
+                        totalAngle += angle;
+                        x1 = xc + r * Math.cos((totalAngle));
+                        y1 = h - (yc + r * Math.sin((totalAngle)));
+                        x0 = x1;
+                        y0 = y1;
+                        // Draw a path for 3 degrees to cover the gap
+                        angle = 3 * (Math.PI / 180);
+                        arcFlag = angle > Math.PI ? 1 : 0;
+                        totalAngle += angle;
+                        x1 = xc + r * Math.cos((totalAngle));
+                        y1 = h - (yc + r * Math.sin((totalAngle)));
+                        path = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                        svg.append(path);
+                    }
                 }
             }
             // draw column chart if only one category selected 
@@ -300,6 +326,7 @@ const app = createApp({
             const path = this.createSvgElement('path');
             path.setAttribute('fill', 'none');
             path.setAttribute('stroke', color);
+            // kanske ha variabel stroke-width beroende på w och h?
             path.setAttribute('stroke-width', '15%');
             let buildPath = 'M ' + x0 + ',' + y0 +
                 ' A ' + r + ' ' + r + ' 0 ' + arcFlag + ' 0 ' + x1 + ',' + y1;
@@ -332,6 +359,11 @@ const app = createApp({
             this.totalSumPerCategory.miscellaneous = 0;
         }
     },
+    // kör en gång när programmet startas:
+    mounted() {
+
+    },
+    // TESTA WATCH??!! ?? !! :) :) ??
     computed: {
         // Lade till brackets i returtypen. För visst är det en lista av expenses vi skickar tillbaka?
         filterExpenses(): Expense[] {
