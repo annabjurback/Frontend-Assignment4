@@ -42,4 +42,4 @@ The assignment is to create a complete Vue application at the same complexity as
 *	Övrigt
 
 ### Input validation:
-    On editing/Creating an Expense dont allow/ignore empty inputs
+* [x] On editing/Creating an Expense dont allow/ignore empty inputs
