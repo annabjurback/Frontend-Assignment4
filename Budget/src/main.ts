@@ -35,35 +35,7 @@ const app = createApp({
                 edit: false,
                 id: 0
             } as Expense,
-            // expense: "" as string,
-            // amount: "",
-            // category: "" as string,
-            //date: new Date().toISOString().substring(0, 10) as string,
             expenses: [
-                //     {
-                //         expense: "Cat",
-                //         amount: 10,
-                //         category: "household",
-                //         date: new Date().toISOString().substring(0, 10),
-                //         edit: false
-                //     },
-                //     {
-                //         expense: "Dog",
-                //         amount: 123,
-                //         category: "entertainment",
-                //         date: new Date().toISOString().substring(0, 10),
-                //         edit: false
-                //     },
-                //     {
-                //         expense: "Dog2",
-                //         amount: 124,
-                //         category: "entertainment",
-                //         date: new Date().toISOString().substring(0, 10),
-                //         edit: false
-                // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
-            ] as Expense[],
-            dummy: [
-
             ] as Expense[],
             filterOptions: {
                 category: "all",
@@ -368,22 +340,6 @@ const app = createApp({
             this.totalSumPerCategory.entertainment = 0;
             this.totalSumPerCategory.clothing = 0;
             this.totalSumPerCategory.miscellaneous = 0;
-        }
-    },
-    watch: {
-        expenses: {
-            handler() {
-                console.log("hello");
-            },
-            //this.filterExpenses;
-        },
-        dummy: {
-            handler() {
-                console.log("hello from dummy");
-            },
-        },
-        maxAmountForSliders() {
-
         }
     },
     // kör en gång när programmet startas:
