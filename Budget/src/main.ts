@@ -67,12 +67,17 @@ const app = createApp({
                 let lastItemID = this.expenses.at(-1).id;
                 this.newItem.id = ++lastItemID;
             }
-            this.expenses.push(this.newItem);
+            // make deep copy of newItem, push to expenses
+            this.expenses.push(JSON.parse(JSON.stringify(this.newItem)));
             this.setMaxAmount;
 
             this.resetFilter();
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+            this.newItem.expense = '';
+            this.newItem.amount = 0;
+            this.newItem.category = "";
+            this.newItem.date = new Date().toISOString().substring(0, 10);
         },
         deleteExpense(index: number): void {
             this.expenses.splice(index, 1);
@@ -91,8 +96,8 @@ const app = createApp({
             //nya
             this.setMaximumSliderValue();
             this.setMinimumSliderValue();
-            
-            if(!expenseToEdit.edit){
+
+            if (!expenseToEdit.edit) {
                 this.resetFilter();
             }
         },
@@ -149,7 +154,12 @@ const app = createApp({
         },
         // Capitalize first letter of a string
         capitalize(string: string): string {
-            return string[0].toUpperCase() + string.slice(1);
+            if (string !== '') {
+                return string[0].toUpperCase() + string.slice(1);
+            }
+            else {
+                return '';
+            }
         },
         drawSVG() {
             let graphBox: HTMLElement | null = this.$refs.graphBox;
@@ -164,11 +174,11 @@ const app = createApp({
             // let w: number = 600;
             // let h: number = 400;
             const svg: HTMLElement = this.createSVG(w, h);
-            
+
             const background: HTMLElement = this.createSvgRect(0, 0, w, h);
             background.style.fill = '#cccccc';
             svg.append(background);
-            
+
             // draw pie chart if all categories selected
             if (this.filterOptions.category === 'all') {
                 // Starting parameters for drawing a pie chart. 
@@ -231,7 +241,9 @@ const app = createApp({
                     }
                     // if only one category exists in the filter, we have already drawn the legend element, but need to draw a path of a full circle:
                     if (amountPercentage === 1) {
-                        // pie piece fo 359 degrees
+                        // let circle = this.createSvgCircle(xc, yc, r);
+                        // svg.append(circle);
+                        // // pie piece fo 359 degrees
                         angle = 359 * (Math.PI / 180);
                         arcFlag = angle > Math.PI ? 1 : 0;
                         totalAngle += angle;
@@ -261,12 +273,12 @@ const app = createApp({
             else {
                 // if no month selected, draw ALL expenses per month
                 if (this.filterOptions.month === '') {
-                    
+
                 }
                 // if month selected, draw all expenses for selected month, per day
                 else {
                     let selectedYearAndMonth: string = this.filterOptions.month;
-                    let year: number = parseInt(selectedYearAndMonth.substring(0,4));
+                    let year: number = parseInt(selectedYearAndMonth.substring(0, 4));
                     let allMonthDays: number[] = [31, year % 4 === 0 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
                     let monthNames: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                     let month: number = parseInt(selectedYearAndMonth.substring(5));
@@ -318,12 +330,15 @@ const app = createApp({
             path.setAttribute('transform', 'rotate(-90, ' + cx + ',' + yc + ')');
             return path;
         },
-        // createSvgCircle(cx: number, cy: number, r: number) {
-        //     const circle = this.cleareSvgElement('circle');
-        //     circle.setAttribute('cx', cx);
-        //     circle.setAttribute('cy', cy);
+        createSvgCircle(cx: number, cy: number, r: number) {
+            const circle = this.cleareSvgElement('circle');
+            circle.setAttribute('cx', cx);
+            circle.setAttribute('cy', cy);
+            circle.setAttribute('r', r);
+            circle.setAttribute('stroke-width', '15%');
+            return circle;
 
-        // },
+        },
         createSvgText(x: number, y: number, text: string) {
             const entry = this.createSvgElement('text');
             entry.setAttribute('x', x);
@@ -331,9 +346,6 @@ const app = createApp({
             entry.textContent = text;
             return entry;
         },
-        // // om nedan funktion INTE är bortkommenterad så hamnar vi i filterExpenses när vi ändrar en siffra i edit. Det går inte att edita amount och category när den är kvar. 
-        // // Om den ÄR bortkommenterad hamnar den inte i filterExpenses, men då funkar inte cirkeldiagrammet.... VARFÖR????? 
-        // JAKOB HJÄLP
         calcTotalSumPerCategory() {
             for (let d of this.filterExpenses) {
                 this.totalSumPerCategory[d.category] += d.amount;
@@ -366,9 +378,7 @@ const app = createApp({
         this.calcTotalSumPerCategory();
         this.drawSVG();
     },
-    // TESTA WATCH??!! ?? !! :) :) ??
     computed: {
-        // Lade till brackets i returtypen. För visst är det en lista av expenses vi skickar tillbaka?
         filterExpenses(): Expense[] {
             // this.setMaximumSliderValue();
 
@@ -382,7 +392,7 @@ const app = createApp({
 
             //Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
             if (this.filterOptions.maximumAmount !== 0) {
-                dummy = dummy.filter((ex: {edit: boolean, amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount || ex.edit === true);
+                dummy = dummy.filter((ex: { edit: boolean, amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount || ex.edit === true);
             }
 
             //If month is not an empty string. Apply month filter.
