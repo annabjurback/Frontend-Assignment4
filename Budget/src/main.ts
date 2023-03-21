@@ -62,6 +62,9 @@ const app = createApp({
                 //         edit: false
                 // } as { expense: string, amount: number, category: string, edit: boolean, date: string }
             ] as Expense[],
+            dummy: [
+
+            ] as Expense[],
             filterOptions: {
                 category: "all",
                 month: "",
@@ -95,6 +98,7 @@ const app = createApp({
             this.expenses.push(this.newItem);
             this.setMaxAmount;
 
+            this.resetFilter();
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
@@ -105,13 +109,20 @@ const app = createApp({
             // Save current expenses to localStorage
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
         },
-        editExpense(index: number): void {
-            this.expenses[index].edit = !this.expenses[index].edit;
+        editExpense(index: number, id: number): void {
 
+            let expenseToEdit = this.expenses.find((expense: any) => expense.id === id);
+            //this.expenses[index].edit = !this.expenses[index].edit;
+
+            expenseToEdit.edit = !expenseToEdit.edit;
             window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
             //nya
             this.setMaximumSliderValue();
             this.setMinimumSliderValue();
+            
+            if(!expenseToEdit.edit){
+                this.resetFilter();
+            }
         },
         getExpensesFromStorage(): void {
             // Get expenses from local storage
@@ -169,7 +180,7 @@ const app = createApp({
             return string[0].toUpperCase() + string.slice(1);
         },
         drawSVG() {
-            let graphBox: HTMLElement | null = this.$refs.graphBox;//document.querySelector('#graph-box');
+            let graphBox: HTMLElement | null = this.$refs.graphBox;
             let graphW = 0;
             let graphH = 0;
             if (graphBox !== null) {
@@ -298,7 +309,7 @@ const app = createApp({
             const svg = this.createSvgElement('svg');
             svg.setAttribute('width', w);
             svg.setAttribute('height', h);
-            let graphBox: HTMLElement | null = document.getElementById('graph-box');
+            let graphBox: HTMLElement | null = this.$refs.graphBox;
 
             // WE know that graphBox is not null, but TS doesn't (not the best-looking solution?)..
             if (graphBox !== null) {
@@ -359,16 +370,44 @@ const app = createApp({
             this.totalSumPerCategory.miscellaneous = 0;
         }
     },
+    watch: {
+        expenses: {
+            handler() {
+                console.log("hello");
+            },
+            //this.filterExpenses;
+        },
+        dummy: {
+            handler() {
+                console.log("hello from dummy");
+            },
+        },
+        maxAmountForSliders() {
+
+        }
+    },
     // kör en gång när programmet startas:
     mounted() {
 
+        if (window.localStorage.getItem('expenses') !== null) {
+            this.expenses = window.localStorage.getItem('expenses');
+            this.expenses = JSON.parse(this.expenses);
+        }
+        else {
+            window.localStorage.setItem("expenses", JSON.stringify(this.expenses));
+            this.expenses = window.localStorage.getItem('expenses');
+            this.expenses = JSON.parse(this.expenses);
+        }
+
+        this.applyFilter();
+        this.calcTotalSumPerCategory();
+        this.drawSVG();
     },
     // TESTA WATCH??!! ?? !! :) :) ??
     computed: {
         // Lade till brackets i returtypen. För visst är det en lista av expenses vi skickar tillbaka?
         filterExpenses(): Expense[] {
             // this.setMaximumSliderValue();
-            this.getExpensesFromStorage();
 
             let dummy;
             if (this.filterOptions.category === "all") {
@@ -380,7 +419,7 @@ const app = createApp({
 
             //Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
             if (this.filterOptions.maximumAmount !== 0) {
-                dummy = dummy.filter((ex: { amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount);
+                dummy = dummy.filter((ex: {edit: boolean, amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount || ex.edit === true);
             }
 
             //If month is not an empty string. Apply month filter.

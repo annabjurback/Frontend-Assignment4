@@ -46,12 +46,12 @@
               <span class="expense-date"> {{expense.date}}</span>
 
               <button @click="deleteExpense(index);" class="delete-button">Delete</button>
-              <button @click="editExpense(index)" class="edit-button">Edit</button>
+              <button @click="editExpense(index, expense.id)" class="edit-button">Edit</button>
             </template>
 
             <!-- visible when edit -->
             <template v-if="expense.edit">
-              <form @submit.prevent="editExpense(index)" class="edit-form">
+              <form @submit.prevent="editExpense(index, expense.id)" class="edit-form">
                 <label class="expense-label">Expense: <input type="text" v-model.lazy="expense.expense" required></label>
                 <label class="amount-label">Amount: <input type="number" v-model.lazy="expense.amount" required></label>
                 <label class="date-label">Date: <input type="date" v-model.lazy="expense.date" required></label>
