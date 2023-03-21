@@ -186,114 +186,70 @@ const app = createApp({
             background.style.fill = '#cccccc';
             svg.append(background);
 
-            // draw pie chart if all categories selected
-            if (this.filterOptions.category === 'all') {
-                // Starting parameters for drawing a pie chart. 
-                // It's a lot, but I think it all needs to be here, since we use a for-loop to append many svg paths to our svg element..? Or could we create a function that returns a list of svg element an then append them one by one. Fråga Jakob?
-                // Skulle vilja knyta en färg till en viss kategori, men det får bli om det finns tid :)
-                const colors: string[] = ['tomato', '#FCA753', '#fff567', 'mediumseagreen', 'dodgerblue', 'mediumorchid'];
-                const r: number = h / 4;
-                const xc: number = w / 2.5;
-                const yc: number = h / 2;
+            // draw pie chart
+            // Starting parameters for drawing a pie chart. 
+            // It's a lot, but I think it all needs to be here, since we use a for-loop to append many svg paths to our svg element..? Or could we create a function that returns a list of svg element an then append them one by one. Fråga Jakob?
+            // Skulle vilja knyta en färg till en viss kategori, men det får bli om det finns tid :)
+            const colors: string[] = ['tomato', '#FCA753', '#fff567', 'mediumseagreen', 'dodgerblue', 'mediumorchid'];
+            const r: number = h / 4;
+            const xc: number = w / 2.5;
+            const yc: number = h / 2;
 
-                let totalSum: number = 0;
-                for (let category in this.totalSumPerCategory) {
-                    totalSum += this.totalSumPerCategory[category];
-                };
-                let nonZeroCategories = Object.keys(this.totalSumPerCategory).filter(key => this.totalSumPerCategory[key] !== 0);
-                let x0: number = xc + r;
-                let y0: number = yc;
-                let amountPercentage: number = 0;
-                let angle: number = 0;
-                let totalAngle: number = 0;
-                let x1: number = 0;
-                let y1: number = 0;
-                // Arc flag: 0/1 for small/large arc, 0 if angle < pi, otherwise 1. 
-                // (will not work with only one category since angle would be 360 = 0, meaning NO path)
-                let arcFlag = 0;
-                // Starting parameters for drawing a legend.
-                let legendXStart: number = w * 0.7;
-                let legendYStart: number = h * 0.1;
-                let boxSize: number = 10;
-                let boxSpace: number = h * 0.045;
-                // background is 5px beyond the color boxes:
-                let legendBackground: HTMLElement = this.createSvgRect(legendXStart - 5, legendYStart - 5, 150, (boxSpace * (nonZeroCategories.length - 1) + boxSize + 10));
-                legendBackground.style.fill = 'white';
-                svg.append(legendBackground);
-                for (let i = 0; i < nonZeroCategories.length; i++) {
-                    amountPercentage = this.totalSumPerCategory[nonZeroCategories[i]] / totalSum;
-                    if (amountPercentage > 0) {
-                        // pie piece
-                        angle = amountPercentage * 360 * (Math.PI / 180);
-                        arcFlag = angle > Math.PI ? 1 : 0;
-                        totalAngle += angle;
-                        x1 = xc + r * Math.cos((totalAngle));
-                        y1 = h - (yc + r * Math.sin((totalAngle)));
-                        let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
-                        svg.append(path);
-                        // update starting position for next pie piece
-                        x0 = x1;
-                        y0 = y1;
+            let totalSum: number = 0;
+            for (let category in this.totalSumPerCategory) {
+                totalSum += this.totalSumPerCategory[category];
+            };
+            let nonZeroCategories = Object.keys(this.totalSumPerCategory).filter(key => this.totalSumPerCategory[key] !== 0);
+            let x0: number = xc + r;
+            let y0: number = yc;
+            let amountPercentage: number = 0;
+            let angle: number = 0;
+            let totalAngle: number = 0;
+            let x1: number = 0;
+            let y1: number = 0;
+            // Arc flag: 0/1 for small/large arc, 0 if angle < pi, otherwise 1. 
+            // (will not work with only one category since angle would be 360 = 0, meaning NO path)
+            let arcFlag = 0;
+            // Starting parameters for drawing a legend.
+            let legendXStart: number = w * 0.7;
+            let legendYStart: number = h * 0.1;
+            let boxSize: number = 10;
+            let boxSpace: number = h * 0.045;
+            // background is 5px beyond the color boxes:
+            let legendBackground: HTMLElement = this.createSvgRect(legendXStart - 5, legendYStart - 5, 150, (boxSpace * (nonZeroCategories.length - 1) + boxSize + 10));
+            legendBackground.style.fill = 'white';
+            svg.append(legendBackground);
+            for (let i = 0; i < nonZeroCategories.length; i++) {
+                amountPercentage = this.totalSumPerCategory[nonZeroCategories[i]] / totalSum;
+                if (amountPercentage > 0) {
+                    // pie piece
+                    angle = amountPercentage * 360 * (Math.PI / 180);
+                    arcFlag = angle > Math.PI ? 1 : 0;
+                    totalAngle += angle;
+                    x1 = xc + r * Math.cos((totalAngle));
+                    y1 = h - (yc + r * Math.sin((totalAngle)));
+                    let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                    svg.append(path);
+                    // update starting position for next pie piece
+                    x0 = x1;
+                    y0 = y1;
 
-                        // legend color box
-                        let legendColorBox: HTMLElement = this.createSvgRect(legendXStart, legendYStart, boxSize, boxSize);
-                        legendColorBox.style.fill = colors[i];
-                        svg.append(legendColorBox);
+                    // legend color box
+                    let legendColorBox: HTMLElement = this.createSvgRect(legendXStart, legendYStart, boxSize, boxSize);
+                    legendColorBox.style.fill = colors[i];
+                    svg.append(legendColorBox);
 
-                        // legend text
-                        let legendEntry: HTMLElement = this.createSvgText(legendXStart + boxSize + 5, legendYStart + boxSize, this.capitalize(nonZeroCategories[i]));
-                        svg.append(legendEntry);
-                        // update starting position for next legend entry
-                        legendYStart += boxSpace;
-                    }
-                    // if only one category exists in the filter, we have already drawn the legend element, but need to draw a path of a full circle:
-                    if (amountPercentage === 1) {
-                        let circle = this.createSvgCircle(xc, yc, r);
-                        svg.append(circle);
-                        // // pie piece fo 359 degrees
-                        // angle = 359 * (Math.PI / 180);
-                        // arcFlag = angle > Math.PI ? 1 : 0;
-                        // totalAngle += angle;
-                        // x1 = xc + r * Math.cos((totalAngle));
-                        // y1 = h - (yc + r * Math.sin((totalAngle)));
-                        // let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
-                        // svg.append(path);
-                        // // update starting position for next pie piece, but first back up one degree
-                        // angle = (-1) * (Math.PI / 180);
-                        // totalAngle += angle;
-                        // x1 = xc + r * Math.cos((totalAngle));
-                        // y1 = h - (yc + r * Math.sin((totalAngle)));
-                        // x0 = x1;
-                        // y0 = y1;
-                        // // Draw a path for 3 degrees to cover the gap
-                        // angle = 3 * (Math.PI / 180);
-                        // arcFlag = angle > Math.PI ? 1 : 0;
-                        // totalAngle += angle;
-                        // x1 = xc + r * Math.cos((totalAngle));
-                        // y1 = h - (yc + r * Math.sin((totalAngle)));
-                        // path = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
-                        // svg.append(path);
-                    }
+                    // legend text
+                    let legendEntry: HTMLElement = this.createSvgText(legendXStart + boxSize + 5, legendYStart + boxSize, this.capitalize(nonZeroCategories[i]));
+                    svg.append(legendEntry);
+                    // update starting position for next legend entry
+                    legendYStart += boxSpace;
                 }
-            }
-            // draw column chart if only one category selected 
-            else {
-                // if no month selected, draw ALL expenses per month
-                if (this.filterOptions.month === '') {
-
-                }
-                // if month selected, draw all expenses for selected month, per day
-                else {
-                    let selectedYearAndMonth: string = this.filterOptions.month;
-                    let year: number = parseInt(selectedYearAndMonth.substring(0, 4));
-                    let allMonthDays: number[] = [31, year % 4 === 0 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-                    let monthNames: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                    let month: number = parseInt(selectedYearAndMonth.substring(5));
-                    let monthName: string = monthNames[month - 1];
-                    let monthDays: number = allMonthDays[month - 1];
-
-                    // Anna fortsätt här: skriv ut datum, rita staplar
-
+                // draw a circle if only one category exists in the filter:
+                // we have already drawn the legend element
+                if (amountPercentage === 1) {
+                    let circle = this.createSvgCircle(xc, yc, r);
+                    svg.append(circle);
                 }
             }
         },
@@ -342,7 +298,9 @@ const app = createApp({
             circle.setAttribute('cx', cx);
             circle.setAttribute('cy', cy);
             circle.setAttribute('r', r);
+            circle.setAttribute('stroke', 'tomato');
             circle.setAttribute('stroke-width', '15%');
+            circle.setAttribute('fill', 'transparent');
             return circle;
 
         },
