@@ -15,12 +15,12 @@ The assignment is to create a complete Vue application at the same complexity as
 * [x]	Kategori (fördefinierade) 
 * [x]	Datumväljare 
     * [x]  Default datum värde (idag).
-* [ ]   Filter alternativ/formulär
+* [x]   Filter alternativ/formulär
    * [x] Month picker filter
-   * [ ] Between two costs filter (incl. proper reset)
+   * [x] Between two costs filter (incl. proper reset)
    * [x] Category filter
-* [ ]   Graf över utgifter per kategori/period
-* [ ]	Visar även filtrerad lista
+* [x]   Graf över utgifter per kategori
+* [x]	Visar även filtrerad lista
 
 ### Techniques
 *	HTML & CSS
@@ -42,4 +42,4 @@ The assignment is to create a complete Vue application at the same complexity as
 *	Övrigt
 
 ### Input validation:
-    On editing/Creating an Expense dont allow/ignore empty inputs
+* [x] On editing/Creating an Expense dont allow/ignore empty inputs
