@@ -241,31 +241,31 @@ const app = createApp({
                     }
                     // if only one category exists in the filter, we have already drawn the legend element, but need to draw a path of a full circle:
                     if (amountPercentage === 1) {
-                        // let circle = this.createSvgCircle(xc, yc, r);
-                        // svg.append(circle);
+                        let circle = this.createSvgCircle(xc, yc, r);
+                        svg.append(circle);
                         // // pie piece fo 359 degrees
-                        angle = 359 * (Math.PI / 180);
-                        arcFlag = angle > Math.PI ? 1 : 0;
-                        totalAngle += angle;
-                        x1 = xc + r * Math.cos((totalAngle));
-                        y1 = h - (yc + r * Math.sin((totalAngle)));
-                        let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
-                        svg.append(path);
-                        // update starting position for next pie piece, but first back up one degree
-                        angle = (-1) * (Math.PI / 180);
-                        totalAngle += angle;
-                        x1 = xc + r * Math.cos((totalAngle));
-                        y1 = h - (yc + r * Math.sin((totalAngle)));
-                        x0 = x1;
-                        y0 = y1;
-                        // Draw a path for 3 degrees to cover the gap
-                        angle = 3 * (Math.PI / 180);
-                        arcFlag = angle > Math.PI ? 1 : 0;
-                        totalAngle += angle;
-                        x1 = xc + r * Math.cos((totalAngle));
-                        y1 = h - (yc + r * Math.sin((totalAngle)));
-                        path = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
-                        svg.append(path);
+                        // angle = 359 * (Math.PI / 180);
+                        // arcFlag = angle > Math.PI ? 1 : 0;
+                        // totalAngle += angle;
+                        // x1 = xc + r * Math.cos((totalAngle));
+                        // y1 = h - (yc + r * Math.sin((totalAngle)));
+                        // let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                        // svg.append(path);
+                        // // update starting position for next pie piece, but first back up one degree
+                        // angle = (-1) * (Math.PI / 180);
+                        // totalAngle += angle;
+                        // x1 = xc + r * Math.cos((totalAngle));
+                        // y1 = h - (yc + r * Math.sin((totalAngle)));
+                        // x0 = x1;
+                        // y0 = y1;
+                        // // Draw a path for 3 degrees to cover the gap
+                        // angle = 3 * (Math.PI / 180);
+                        // arcFlag = angle > Math.PI ? 1 : 0;
+                        // totalAngle += angle;
+                        // x1 = xc + r * Math.cos((totalAngle));
+                        // y1 = h - (yc + r * Math.sin((totalAngle)));
+                        // path = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+                        // svg.append(path);
                     }
                 }
             }
@@ -331,7 +331,7 @@ const app = createApp({
             return path;
         },
         createSvgCircle(cx: number, cy: number, r: number) {
-            const circle = this.cleareSvgElement('circle');
+            const circle = this.createSvgElement('circle');
             circle.setAttribute('cx', cx);
             circle.setAttribute('cy', cy);
             circle.setAttribute('r', r);
