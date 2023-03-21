@@ -273,7 +273,8 @@ const app = createApp({
                     let monthName: string = monthNames[month - 1];
                     let monthDays: number = allMonthDays[month - 1];
 
-                    // Anna fortsätt här: rita upp en rektangel, skriv ut datum, rita staplar
+                    // Anna fortsätt här: skriv ut datum, rita staplar
+
                 }
             }
         },
@@ -309,7 +310,7 @@ const app = createApp({
             const path = this.createSvgElement('path');
             path.setAttribute('fill', 'none');
             path.setAttribute('stroke', color);
-            // kanske ha variabel stroke-width beroende på w och h?
+            // kanske ha variabel stroke-width beroende på w eller h?
             path.setAttribute('stroke-width', '15%');
             let buildPath = 'M ' + x0 + ',' + y0 +
                 ' A ' + r + ' ' + r + ' 0 ' + arcFlag + ' 0 ' + x1 + ',' + y1;
@@ -317,6 +318,12 @@ const app = createApp({
             path.setAttribute('transform', 'rotate(-90, ' + cx + ',' + yc + ')');
             return path;
         },
+        // createSvgCircle(cx: number, cy: number, r: number) {
+        //     const circle = this.cleareSvgElement('circle');
+        //     circle.setAttribute('cx', cx);
+        //     circle.setAttribute('cy', cy);
+
+        // },
         createSvgText(x: number, y: number, text: string) {
             const entry = this.createSvgElement('text');
             entry.setAttribute('x', x);
