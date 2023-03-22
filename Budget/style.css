@@ -265,12 +265,18 @@ footer {
 } */
 
 #graph-box {
-    height: 500px;
+    /* height: 500px; */
     background-color: blue;
 }
 
 svg text {
     fill: #404147;
+    font-size: 0.6em;
+}
+
+svg text.small {
+    font-size: 0.32em;
+    font-family: 'Oswald';
 }
 
 /* for phones/tablets in landscape mode */
