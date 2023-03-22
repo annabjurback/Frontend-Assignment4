@@ -212,7 +212,7 @@ const app = createApp({
             // Arc flag: 0/1 for small/large arc, 0 if angle < pi, otherwise 1. 
             let arcFlag = 0;
 
-            // Don't draw anything if no categories in filter
+            // Don't draw anything if there are no filtered categories
             if (nonZeroCategories.length !== 0) {
                 // Starting parameters for drawing a legend.
                 let legendXStart: number = w * 0.65;
@@ -284,7 +284,7 @@ const app = createApp({
                     this.filterOptions.minimumAmount +' kr';
                 };
 
-                let graphTitle: HTMLElement = this.createSvgText('50%', h * 0.1, titleText);
+                let graphTitle: HTMLElement = this.createSvgText(w/2, h * 0.1, titleText);
                 graphTitle.setAttribute('dominant-baseline', 'middle');
                 graphTitle.setAttribute('text-anchor', 'middle');
                 svg.append(graphTitle);
@@ -300,7 +300,7 @@ const app = createApp({
             svg.setAttribute('height', h);
             let graphBox: HTMLElement | null = this.$refs.graphBox;
 
-            // WE know that graphBox is not null, but TS doesn't (not the best-looking solution?)..
+            // WE know that graphBox is not null, but TS doesn't 
             if (graphBox !== null) {
                 // first clear all the "old" elements..
                 while (graphBox.firstElementChild) {
@@ -326,7 +326,6 @@ const app = createApp({
             const path = this.createSvgElement('path');
             path.setAttribute('fill', 'none');
             path.setAttribute('stroke', color);
-            // kanske ha variabel stroke-width beroende på w eller h?
             path.setAttribute('stroke-width', '15%');
             let buildPath = 'M ' + x0 + ',' + y0 +
                 ' A ' + r + ' ' + r + ' 0 ' + arcFlag + ' 0 ' + x1 + ',' + y1;
@@ -366,7 +365,7 @@ const app = createApp({
             this.totalSumPerCategory.miscellaneous = 0;
         }
     },
-    // kör en gång när programmet startas:
+    // Run once when program starts
     mounted() {
 
         if (window.localStorage.getItem('expenses') !== null) {
