@@ -271,10 +271,7 @@ footer {
     box-sizing: border-box;
 }
 
-svg {
-    /* något mer krävs för positioneringen */
-    transform: scale(1.1);
-;}
+
 
 svg text {
     fill: #404147;

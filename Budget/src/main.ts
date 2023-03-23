@@ -169,7 +169,7 @@ const app = createApp({
         drawSVG() {
             this.clearTotalSumPerCategory();
             this.calcTotalSumPerCategory();
-            // let graphBox: HTMLElement | null = this.$refs.graphBox;
+            let graphBox: HTMLElement | null = this.$refs.graphBox;
             // let graphW = 0;
             // let graphH = 0;
             // if (graphBox !== null) {
@@ -178,7 +178,7 @@ const app = createApp({
             // };
             // let w: number = graphW;
             // let h: number = graphH;
-            let w: number = 280;
+            let w: number = graphBox.offsetWidth;//280;
             let h: number = w * (2 / 3);
             const svg: HTMLElement = this.createSVG(w, h);
 
@@ -187,7 +187,6 @@ const app = createApp({
             svg.append(background);
 
             // Starting parameters for drawing a pie chart. 
-            // Skulle vilja knyta en färg till en viss kategori, men det får bli om det finns tid :)
             const colors: string[] = ['tomato', '#FCA753', '#fff567', 'mediumseagreen', 'dodgerblue', 'mediumorchid'];
             // radius and center coordinates for path
             const r: number = h / 4;
@@ -331,6 +330,10 @@ const app = createApp({
                 ' A ' + r + ' ' + r + ' 0 ' + arcFlag + ' 0 ' + x1 + ',' + y1;
             path.setAttribute('d', buildPath);
             path.setAttribute('transform', 'rotate(-90, ' + xc + ',' + yc + ')');
+            const animation = this.createSvgElement('animate');
+            // animation.setAttribute('attributeName', 'd');
+            // animation.setAttribute('dur', '1s');
+            // path.append(animation);
             return path;
         },
         createSvgCircle(xc: number, yc: number, r: number) {
