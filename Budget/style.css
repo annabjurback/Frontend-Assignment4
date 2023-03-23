@@ -278,11 +278,18 @@ footer {
 
 svg text {
     fill: #404147;
-    font-size: 0.6em;
+}
+
+svg text.title {
+    font-size: 3.3vh;
+}
+
+svg text.legend-entry {
+    font-size: 1.9vh;
 }
 
 svg text.small {
-    font-size: 0.32em;
+    font-size: 0.9vw;
     font-family: 'Oswald';
 }
 
