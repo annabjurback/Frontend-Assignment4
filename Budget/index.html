@@ -32,10 +32,6 @@
 
       <div>
         <h2>History</h2>
-        <!-- need to call setMaxAmount in order for the cost sliders to 
-          work before any changes have been made after refresh
-        There is probably a better solution...?-->
-        {{setMaxAmount}}
         <ul>
           <!-- EXPENSE LIST -->
           <li v-for="(expense, index) in filterExpenses" :class="{ expense: !expense.edit }" :key="expense.id">

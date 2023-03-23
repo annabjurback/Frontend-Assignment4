@@ -384,6 +384,7 @@ const app = createApp({
             this.expenses = JSON.parse(this.expenses);
         }
 
+        this.setMaxAmount;
         this.applyFilter();
         this.calcTotalSumPerCategory();
         this.drawSVG();
@@ -401,10 +402,10 @@ const app = createApp({
                 dummy = this.expenses.filter((ex: { category: string; }) => ex.category === this.filterOptions.category);
             }
 
-            //Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
+            // Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
             if (this.filterOptions.maximumAmount !== 0) {
                 dummy = dummy.filter((ex: { edit: boolean, amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount || ex.edit === true);
-            }
+            } 
 
             //If month is not an empty string. Apply month filter.
             if (this.filterOptions.month !== "") {
