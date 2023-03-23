@@ -258,16 +258,8 @@ footer {
     margin-left: 5px;
 }
 
-/* @media (min-width: 600px) {
-    #expense-container {
-        max-width: 600px;
-    }
-} */
-
 #graph-box {
-     /* Anna-test: */
     box-sizing: border-box;
-
 }
 
 path {

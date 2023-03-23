@@ -1,8 +1,4 @@
 import { createApp } from 'vue';
-// import App from './App.vue'
-
-
-// import './assets/main.css'
 
 interface Expense {
     expense: string;
@@ -56,8 +52,8 @@ const app = createApp({
                 'clothing': 0,
                 'miscellaneous': 0
             } as SumPerCategory,
-            height: 0,
-            width: 0
+            height: 0 as number,
+            width: 0 as number
         }
     },
     methods: {
@@ -172,14 +168,7 @@ const app = createApp({
             this.clearTotalSumPerCategory();
             this.calcTotalSumPerCategory();
             let graphBox: HTMLElement | null = this.$refs.graphBox;
-            // let graphW = 0;
-            // let graphH = 0;
-            // if (graphBox !== null) {
-            //     graphW = graphBox.offsetWidth;
-            //     graphH = graphBox.offsetHeight;
-            // };
-            // let w: number = graphW;
-            // let h: number = graphH;
+
             let w: number = graphBox!.offsetWidth;//280;
             let h: number = w * (2 / 3);
             const svg: HTMLElement = this.createSVG(w, h);
@@ -403,8 +392,6 @@ const app = createApp({
     },
     computed: {
         filterExpenses(): Expense[] {
-            // this.setMaximumSliderValue();
-
             let dummy;
             if (this.filterOptions.category === "all") {
                 dummy = this.expenses.slice();
