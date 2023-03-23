@@ -124,10 +124,6 @@ const app = createApp({
         },
         setMaximumSliderValue(): void {
             this.setMaxAmount;
-            // If zero is selected, assume the full range
-            if (this.maximumAmountSelect === 0) {
-                this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
-            }
             // If selected minimum amount is larger than selected maximum amount, set max to min value 
             if (parseInt(this.minimumAmountSelect) > parseInt(this.maximumAmountSelect)) {
                 this.maximumAmountSelect = this.minimumAmountSelect;
@@ -135,6 +131,10 @@ const app = createApp({
             // If current maximum expense is less than selected max, set selected max to current maximum expense 
             if (parseInt(this.maxAmountForSliders) < parseInt(this.maximumAmountSelect)) {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
+            }
+            // If zero is selected, assume the full range
+            if (parseInt(this.maximumAmountSelect) === 0) {
+                this.maximumAmountSelect = this.maxAmountForSliders;
             }
         },
         applyFilter(): void {
@@ -403,7 +403,7 @@ const app = createApp({
             }
 
             // Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
-            if (this.filterOptions.maximumAmount !== 0) {
+            if (parseInt(this.filterOptions.maximumAmount) !== 0) {
                 dummy = dummy.filter((ex: { edit: boolean, amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount || ex.edit === true);
             } 
 
