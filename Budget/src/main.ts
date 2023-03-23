@@ -56,6 +56,8 @@ const app = createApp({
                 'clothing': 0,
                 'miscellaneous': 0
             } as SumPerCategory,
+            height: 0,
+            width: 0
         }
     },
     methods: {
@@ -178,7 +180,7 @@ const app = createApp({
             // };
             // let w: number = graphW;
             // let h: number = graphH;
-            let w: number = graphBox.offsetWidth;//280;
+            let w: number = graphBox!.offsetWidth;//280;
             let h: number = w * (2 / 3);
             const svg: HTMLElement = this.createSVG(w, h);
 
@@ -366,10 +368,17 @@ const app = createApp({
             this.totalSumPerCategory.entertainment = 0;
             this.totalSumPerCategory.clothing = 0;
             this.totalSumPerCategory.miscellaneous = 0;
+        },
+        resizeHandler(e: Event) {
+            this.height = window.innerHeight;
+            this.width = window.innerWidth;
+
+            this.drawSVG();
         }
     },
     // Run once when program starts
     mounted() {
+        window.addEventListener("resize", this.resizeHandler);
 
         if (window.localStorage.getItem('expenses') !== null) {
             this.expenses = window.localStorage.getItem('expenses');
@@ -384,6 +393,9 @@ const app = createApp({
         this.applyFilter();
         this.calcTotalSumPerCategory();
         this.drawSVG();
+
+        this.height = window.innerHeight;
+        this.width = window.innerWidth;
     },
     computed: {
         filterExpenses(): Expense[] {
@@ -416,5 +428,8 @@ const app = createApp({
                 return currentExpense.amount > max ? currentExpense.amount : max;
             }, 0);
         },
+        destroyed() {
+            window.removeEventListener("resize", this.resizeHandler);
+        }
     }
 }).mount('#app')

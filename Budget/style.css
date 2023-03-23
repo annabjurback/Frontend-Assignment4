@@ -265,8 +265,6 @@ footer {
 } */
 
 #graph-box {
-    /* height: 500px; */
-    background-color: blue;
      /* Anna-test: */
     box-sizing: border-box;
 
@@ -295,8 +293,7 @@ svg text.small {
         max-width: 500px;
     }
     #graph-box {
-        width: 100%;
-        background-color: #e3a14b;
+        width: 50%;
         align-self: flex-start;
         position: sticky;
         top: 60px;
@@ -317,8 +314,7 @@ svg text.small {
         max-width: 500px;
     }
     #graph-box {
-        width: 100%;
-        background-color: #404147;
+        width: 50%;
         align-self: flex-start;
         position: sticky;
         top: 60px;
