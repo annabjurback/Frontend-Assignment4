@@ -269,6 +269,9 @@ footer {
     background-color: blue;
      /* Anna-test: */
     box-sizing: border-box;
+    align-self: flex-start;
+    position: sticky;
+    top: 60px;
 }
 
 
