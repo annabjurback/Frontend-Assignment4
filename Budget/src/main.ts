@@ -118,24 +118,36 @@ const app = createApp({
         },
         // The two methods below keep track of the selected values in the minimum and maximum amount sliders, so that the selected minimum amount cannot exeed selected maximum amount, and vice versa
         setMinimumSliderValue(): void {
+            // Get max amount from expense list
+            this.setMaxAmount;
+            // If selected maximum amount is less than selected minimum amount, set min to max
             if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
                 this.minimumAmountSelect = this.maximumAmountSelect;
+            } 
+            // If max was set to 0, set it to max amount from expense list
+            if (parseInt(this.maximumAmountSelect) === 0) {
+                this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
             }
         },
         setMaximumSliderValue(): void {
+            // Get max amount from expense list
             this.setMaxAmount;
-            // If selected minimum amount is larger than selected maximum amount, set max to min value 
+            // If selected minimum amount is larger than selected maximum amount, set max to min
             if (parseInt(this.minimumAmountSelect) > parseInt(this.maximumAmountSelect)) {
                 this.maximumAmountSelect = this.minimumAmountSelect;
+            } 
+            // If min was set to max amount from expense list, set it to 0
+            if (parseInt(this.minimumAmountSelect) === this.maxAmountForSliders) {
+                this.minimumAmountSelect = 0;
             }
-            // If current maximum expense is less than selected max, set selected max to current maximum expense 
-            if (parseInt(this.maxAmountForSliders) < parseInt(this.maximumAmountSelect)) {
-                this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
-            }
-            // If zero is selected, assume the full range
-            if (parseInt(this.maximumAmountSelect) === 0) {
-                this.maximumAmountSelect = this.maxAmountForSliders;
-            }
+            // // If current maximum expense is less than selected max, set selected max to current maximum expense (this method was not needed here)
+            // if (parseInt(this.maxAmountForSliders) < parseInt(this.maximumAmountSelect)) {
+            //     this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
+            // }
+            // // If maximum is selected, assume the full range (this method moved to setMini..())
+            // if (parseInt(this.maximumAmountSelect) === 0) {
+            //     this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
+            // }
         },
         applyFilter(): void {
             this.filterOptions.category = this.filterSelect;
@@ -373,7 +385,7 @@ const app = createApp({
     // Run once when program starts
     mounted() {
         window.addEventListener("resize", this.resizeHandler);
-
+        
         if (window.localStorage.getItem('expenses') !== null) {
             this.expenses = window.localStorage.getItem('expenses');
             this.expenses = JSON.parse(this.expenses);
@@ -383,7 +395,7 @@ const app = createApp({
             this.expenses = window.localStorage.getItem('expenses');
             this.expenses = JSON.parse(this.expenses);
         }
-
+        
         this.setMaxAmount;
         this.applyFilter();
         this.calcTotalSumPerCategory();
