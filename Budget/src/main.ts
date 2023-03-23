@@ -171,16 +171,8 @@ const app = createApp({
         drawSVG() {
             this.clearTotalSumPerCategory();
             this.calcTotalSumPerCategory();
-            let graphBox: HTMLElement | null = this.$refs.graphBox;
-            // let graphW = 0;
-            // let graphH = 0;
-            // if (graphBox !== null) {
-            //     graphW = graphBox.offsetWidth;
-            //     graphH = graphBox.offsetHeight;
-            // };
-            // let w: number = graphW;
-            // let h: number = graphH;
-            let w: number = graphBox!.offsetWidth;//280;
+            let graphBox: HTMLElement = this.$refs.graphBox;
+            let w: number = graphBox!.offsetWidth;
             let h: number = w * (2 / 3);
             const svg: HTMLElement = this.createSVG(w, h);
 
@@ -218,9 +210,9 @@ const app = createApp({
                 // Starting parameters for drawing a legend.
                 let legendXStart: number = w * 0.65;
                 let legendYStart: number = yc - r - h * 0.065;
-                let boxSize: number = h * 0.02;
-                let boxSpace: number = h * 0.05;
-                // Legend background starts 5px before the color boxes (in x- & y-direction) and ends 5p after color boxes (in y-direction):
+                let boxSize: number = h / 50;
+                let boxSpace: number = h / 20;
+                // Legend background starts 5px before the color boxes (in x- & y-direction) and ends 5px after color boxes (in y-direction):
                 let legendBackground: HTMLElement = this.createSvgRect(legendXStart - 5, legendYStart - 5, w / 3, (boxSpace * (nonZeroCategories.length - 1) + boxSize + 10));
                 legendBackground.style.fill = 'white';
                 svg.append(legendBackground);
@@ -247,7 +239,7 @@ const app = createApp({
 
                         // legend text
                         let legendEntry: HTMLElement = this.createSvgText(legendXStart + boxSize + 5, legendYStart + boxSize, this.capitalize(nonZeroCategories[i]));
-                        legendEntry.setAttribute('class', 'legend-entry');
+                        legendEntry.setAttribute('font-size', h/34+'px');
                         svg.append(legendEntry);
                         // update starting position for next legend entry
                         legendYStart += boxSpace;
@@ -263,7 +255,6 @@ const app = createApp({
                 }
                 // Build a title string and append to svg graph
                 let titleText: string = "Expenses "
-                // let timeText: string = 'Expenses';
                 let selectedMonth: string = this.filterOptions.month;
                 if (selectedMonth !== '') {
                     let month: number = parseInt(selectedMonth.substring(5));
@@ -282,18 +273,19 @@ const app = createApp({
                     this.filterOptions.minimumAmount != this.maxAmountForSliders &&
                     this.filterOptions.maximumAmount != 0 &&
                     this.filterOptions.maximumAmount != this.maxAmountForSliders) {
-                    titleText += ' between ' + this.filterOptions.minimumAmount + ' and '+ 
-                    this.filterOptions.maximumAmount +' kr';
+                    titleText += ' between ' + this.filterOptions.minimumAmount + ' and ' +
+                        this.filterOptions.maximumAmount + ' kr';
                 };
 
-                let graphTitle: HTMLElement = this.createSvgText(w/2, h * 0.1, titleText);
+                let graphTitle: HTMLElement = this.createSvgText(w / 2, h * 0.1, titleText);
                 graphTitle.setAttribute('dominant-baseline', 'middle');
                 graphTitle.setAttribute('text-anchor', 'middle');
-                graphTitle.setAttribute('class', 'title')
+                graphTitle.setAttribute('font-size', h/20+'px');
                 svg.append(graphTitle);
 
-                let sumText: HTMLElement = this.createSvgText(w*0.7, h*0.95, "Sum of illustrated expenses: " + totalSum + ' kr');
+                let sumText: HTMLElement = this.createSvgText(legendXStart - 5, h * 0.95, "Sum of illustrated expenses: " + totalSum.toLocaleString('sv-SE') + ' kr');
                 sumText.setAttribute('class', 'small');
+                sumText.setAttribute('font-size', h/35+'px');
                 svg.append(sumText);
             }
         },
@@ -301,17 +293,19 @@ const app = createApp({
             const svg = this.createSvgElement('svg');
             svg.setAttribute('width', w);
             svg.setAttribute('height', h);
-            let graphBox: HTMLElement | null = this.$refs.graphBox;
+            // ny
+            let viewboxString = '0 0 ' + w + ' ' + h;
+            svg.setAttribute('viewbox', viewboxString);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            // hit
+            let graphBox: HTMLElement = this.$refs.graphBox;
 
-            // WE know that graphBox is not null, but TS doesn't 
-            if (graphBox !== null) {
-                // first clear all the "old" elements..
-                while (graphBox.firstElementChild) {
-                    graphBox.firstElementChild.remove();
-                }
-                // .. then append the new one
-                graphBox.append(svg);
+            // first clear all the "old" elements..
+            while (graphBox.firstElementChild) {
+                graphBox.firstElementChild.remove();
             }
+            // .. then append the new one
+            graphBox.append(svg);
             return svg;
         },
         createSvgElement(tagType: string) {

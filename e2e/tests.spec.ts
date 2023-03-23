@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
-  // Finns det ett bättre sätt? funkar inte rakt av med liveserver
   await page.goto('http://localhost:5173/');
 
   // Expect a title "to contain" a substring.
@@ -26,11 +25,12 @@ test('ensure expense name input', async ({ page }) => {
   await page.keyboard.press('Enter');
 
   // Get last list item
+
   let lastItem = await page.locator('ul li').last();
   // Get expense name for last item
   let lastExpenseName = await lastItem.locator('.expense-name').textContent();
 
-  // Expect the last expense to equal 'Coffee'.
+  // Expect the last expense name to equal 'Coffee'.
   await expect(lastExpenseName).toEqual('Coffee');
 });
 
