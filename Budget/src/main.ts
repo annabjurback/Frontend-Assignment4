@@ -235,6 +235,7 @@ const app = createApp({
                         x1 = xc + r * Math.cos((totalAngle));
                         y1 = yc - r * Math.sin((totalAngle));
                         let path: HTMLElement = this.createSvgPath(r, x0, y0, x1, y1, xc, yc, arcFlag, colors[i]);
+
                         svg.append(path);
                         // update starting position for next pie piece
                         x0 = x1;
@@ -335,6 +336,7 @@ const app = createApp({
             path.setAttribute('d', buildPath);
             path.setAttribute('transform', 'rotate(-90, ' + xc + ',' + yc + ')');
             const animation = this.createSvgElement('animate');
+            // Arc = v * r where v is in radians
             // animation.setAttribute('attributeName', 'd');
             // animation.setAttribute('dur', '1s');
             // path.append(animation);

@@ -270,6 +270,18 @@ footer {
 
 }
 
+path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    pointer-events: none;
+    animation: animateDash 2s linear forwards;
+}
+@keyframes animateDash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
 svg text {
     fill: #404147;
 }
