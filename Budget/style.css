@@ -269,15 +269,8 @@ footer {
     background-color: blue;
      /* Anna-test: */
     box-sizing: border-box;
-    align-self: flex-start;
-    position: sticky;
-    top: 60px;
-}
 
-svg {
-    /* något mer krävs för positioneringen */
-    transform: scale(1);
-;}
+}
 
 svg text {
     fill: #404147;
@@ -304,6 +297,9 @@ svg text.small {
     #graph-box {
         width: 100%;
         background-color: #e3a14b;
+        align-self: flex-start;
+        position: sticky;
+        top: 60px;
     }
 }
 
@@ -323,5 +319,8 @@ svg text.small {
     #graph-box {
         width: 100%;
         background-color: #404147;
+        align-self: flex-start;
+        position: sticky;
+        top: 60px;
     }
 }
