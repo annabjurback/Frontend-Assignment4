@@ -269,11 +269,14 @@ footer {
     background-color: blue;
      /* Anna-test: */
     box-sizing: border-box;
+    align-self: flex-start;
+    position: sticky;
+    top: 60px;
 }
 
 svg {
     /* något mer krävs för positioneringen */
-    transform: scale(1.1);
+    transform: scale(1);
 ;}
 
 svg text {
