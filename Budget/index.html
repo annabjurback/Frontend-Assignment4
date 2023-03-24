@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Limelight" rel="stylesheet" type="text/css" media="all" />
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" media="all" />
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="C:\Dev\OneDrive - Academedia\Frontend\Frontend-Assignment4\Budget\src\main.js" defer></script> 
   <title>Budget app</title>
 </head>
 
@@ -79,12 +80,12 @@
           <label class="minimum-filter">
             Minimum cost: {{minimumAmountSelect}} kr
             <input type="range" name="filter" id="minimumSlider" min="0" :max="maxAmountForSliders"
-              v-model="minimumAmountSelect" @change="setMaximumSliderValue">
+              v-model="minimumAmountSelect" @change="minimumSliderControl">
           </label>
           <label class="maximum-filter">
             Maximum cost: {{maximumAmountSelect}} kr
             <input type="range" name="filter" id="maximumSlider" min="0" :max="maxAmountForSliders"
-              v-model="maximumAmountSelect" @change="setMinimumSliderValue">
+              v-model="maximumAmountSelect" @change="maximumSliderControl">
           </label>
           <label class="month-filter">
             Month:
