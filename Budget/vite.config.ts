@@ -12,5 +12,5 @@ export default defineConfig({
       'vue': 'vue/dist/vue.esm-bundler.js'
     }
   },
-  base: "Budget/dist/"
+  base: "Frontend-Assignment4/Budget/dist/"
 })
