@@ -24,26 +24,29 @@ h1 {
 ul {
     list-style: none;
 }
+
 #create-expense {
     display: flex;
     flex-direction: column;
     margin: 5px;
 }
 
-#create-expense > label {
+#create-expense>label {
     display: flex;
     font-size: 1.4em;
     margin-bottom: 5px;
     width: 100%;
     font-family: 'Oswald';
 }
-#create-expense > label > * {
+
+#create-expense>label>* {
     width: 50%;
     font-size: 1.1em;
     margin-left: auto;
     font-family: 'Oswald';
 }
-#create-expense button{
+
+#create-expense button {
     border: none;
     font-size: 1.2em;
     color: #2f3035;
@@ -57,37 +60,43 @@ h2 {
     margin: 10px;
     color: #E3B04B;
 }
+
 .expense {
     display: grid;
     /* forward slash denotes grid-template-columns spacing */
     grid-template:
-    "a b c"
-    "d e f" / 5fr 3fr 2fr;
+        "a b c"
+        "d e f" / 5fr 3fr 2fr;
     align-items: center;
     padding: 5px 0px;
 }
+
 .expense:nth-child(odd) {
     background-color: #404147;
 }
 
-.expense-name{
+.expense-name {
     grid-area: a;
     font-size: 1.5em;
     padding-left: 10px;
 }
-.expense-amount{
+
+.expense-amount {
     grid-area: b;
     font-size: 1.4em;
 }
+
 .expense-category {
     grid-area: d;
     padding-left: 5px;
     font-family: 'Oswald';
 }
+
 .expense-date {
     grid-area: e;
     font-family: 'Oswald';
 }
+
 .delete-button {
     grid-area: f;
     border: none;
@@ -100,6 +109,7 @@ h2 {
     margin-top: 2px;
     margin-right: 5px;
 }
+
 .edit-button {
     grid-area: c;
     border: none;
@@ -115,17 +125,18 @@ h2 {
 .edit-form {
     display: grid;
     grid-template:
-    "a a a a"
-    "b b b b"
-    "c c c c"
-    "d d d d"
-    "e e e e";
+        "a a a a"
+        "b b b b"
+        "c c c c"
+        "d d d d"
+        "e e e e";
 
     border: 1px solid #d1ba95;
     margin-bottom: 10px;
     padding: 5px;
 }
-.edit-form > * {
+
+.edit-form>* {
     display: flex;
     margin-left: 10px;
     margin-bottom: 5px;
@@ -135,6 +146,7 @@ h2 {
 .expense-label {
     grid-area: a;
 }
+
 .expense-label input {
     width: 50%;
     margin-left: auto;
@@ -144,6 +156,7 @@ h2 {
 .amount-label {
     grid-area: b;
 }
+
 .amount-label input {
     width: 50%;
     margin-left: auto;
@@ -153,6 +166,7 @@ h2 {
 .date-label {
     grid-area: c;
 }
+
 .date-label input {
     width: 50%;
     margin-left: auto;
@@ -162,6 +176,7 @@ h2 {
 .category-label {
     grid-area: d;
 }
+
 .category-label select {
     width: 50%;
     margin-left: auto;
@@ -182,50 +197,61 @@ h2 {
 footer {
     border-top: 1px solid #d1ba95;
 }
+
 #filter-form {
     display: grid;
 
     grid-template:
-    "a b"
-    "c d"
-    "e e";
+        "a b"
+        "c d"
+        "e e";
     align-items: center;
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.category-filter, .minimum-filter, .maximum-filter, .month-filter {
+.category-filter,
+.minimum-filter,
+.maximum-filter,
+.month-filter {
     display: flex;
     font-family: 'Oswald';
 }
+
 .category-filter {
     grid-area: a;
 }
+
 .category-filter select {
     width: 50%;
     margin-left: auto;
     margin-right: 5px;
     font-family: 'Oswald';
 }
+
 .minimum-filter {
     grid-area: b;
     width: 100%;
     flex-direction: column;
 }
+
 .maximum-filter {
     grid-area: d;
     width: 100%;
     flex-direction: column;
 }
+
 .month-filter {
     grid-area: c;
 }
-.month-filter input{
+
+.month-filter input {
     width: 50%;
     margin-left: auto;
     margin-right: 5px;
     font-family: 'Oswald';
 }
+
 .filter-submit {
     grid-area: e;
     border: none;
@@ -237,8 +263,9 @@ footer {
     color: #2f3035;
     background-color: #E3B04B;
 }
+
 .misc {
-    display:flex;
+    display: flex;
     align-items: center;
     margin: 5px;
 }
@@ -268,6 +295,7 @@ path {
     pointer-events: none;
     animation: animateDash 2s linear forwards;
 }
+
 @keyframes animateDash {
     to {
         stroke-dashoffset: 0;
@@ -290,10 +318,12 @@ svg text.small {
         margin-right: auto;
         margin-left: auto;
     }
+
     #expense-container {
         width: 50%;
         max-width: 500px;
     }
+
     #graph-box {
         width: 50%;
         align-self: flex-start;
@@ -311,10 +341,12 @@ svg text.small {
         margin-right: auto;
         margin-left: auto;
     }
+
     #expense-container {
         width: 50%;
         max-width: 500px;
     }
+
     #graph-box {
         width: 50%;
         align-self: flex-start;

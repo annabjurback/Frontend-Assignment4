@@ -123,7 +123,7 @@ const app = createApp({
             // If selected maximum amount is less than selected minimum amount, set min to max
             if (parseInt(this.maximumAmountSelect) < parseInt(this.minimumAmountSelect)) {
                 this.minimumAmountSelect = this.maximumAmountSelect;
-            } 
+            }
             // If max was set to 0, set it to max amount from expense list
             if (parseInt(this.maximumAmountSelect) === 0) {
                 this.maximumAmountSelect = parseInt(this.maxAmountForSliders);
@@ -135,7 +135,7 @@ const app = createApp({
             // If selected minimum amount is larger than selected maximum amount, set max to min
             if (parseInt(this.minimumAmountSelect) > parseInt(this.maximumAmountSelect)) {
                 this.maximumAmountSelect = this.minimumAmountSelect;
-            } 
+            }
             // If min was set to max amount from expense list, set it to 0
             if (parseInt(this.minimumAmountSelect) === this.maxAmountForSliders) {
                 this.minimumAmountSelect = 0;
@@ -240,7 +240,7 @@ const app = createApp({
 
                         // legend text
                         let legendEntry: HTMLElement = this.createSvgText(legendXStart + boxSize + 5, legendYStart + boxSize, this.capitalize(nonZeroCategories[i]));
-                        legendEntry.setAttribute('font-size', h/34+'px');
+                        legendEntry.setAttribute('font-size', h / 34 + 'px');
                         svg.append(legendEntry);
                         // update starting position for next legend entry
                         legendYStart += boxSpace;
@@ -281,12 +281,12 @@ const app = createApp({
                 let graphTitle: HTMLElement = this.createSvgText(w / 2, h * 0.1, titleText);
                 graphTitle.setAttribute('dominant-baseline', 'middle');
                 graphTitle.setAttribute('text-anchor', 'middle');
-                graphTitle.setAttribute('font-size', h/20+'px');
+                graphTitle.setAttribute('font-size', h / 20 + 'px');
                 svg.append(graphTitle);
 
                 let sumText: HTMLElement = this.createSvgText(legendXStart - 5, h * 0.95, "Sum of illustrated expenses: " + totalSum.toLocaleString('sv-SE') + ' kr');
                 sumText.setAttribute('class', 'small');
-                sumText.setAttribute('font-size', h/35+'px');
+                sumText.setAttribute('font-size', h / 35 + 'px');
                 svg.append(sumText);
             }
         },
@@ -377,7 +377,7 @@ const app = createApp({
     // Run once when program starts
     mounted() {
         window.addEventListener("resize", this.resizeHandler);
-        
+
         if (window.localStorage.getItem('expenses') !== null) {
             this.expenses = window.localStorage.getItem('expenses');
             this.expenses = JSON.parse(this.expenses);
@@ -387,7 +387,7 @@ const app = createApp({
             this.expenses = window.localStorage.getItem('expenses');
             this.expenses = JSON.parse(this.expenses);
         }
-        
+
         this.setMaxAmount;
         this.applyFilter();
         this.calcTotalSumPerCategory();
@@ -409,7 +409,7 @@ const app = createApp({
             // Only apply cost filter if a maximum cost is selected (i.e it is not at 0)
             if (parseInt(this.filterOptions.maximumAmount) !== 0) {
                 dummy = dummy.filter((ex: { edit: boolean, amount: number }) => ex.amount >= this.filterOptions.minimumAmount && ex.amount <= this.filterOptions.maximumAmount || ex.edit === true);
-            } 
+            }
 
             //If month is not an empty string. Apply month filter.
             if (this.filterOptions.month !== "") {
